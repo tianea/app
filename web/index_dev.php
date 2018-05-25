@@ -1,4 +1,5 @@
 <?php
+umask(0000);
 
 use Symfony\Component\Debug\Debug;
 

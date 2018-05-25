@@ -1,4 +1,5 @@
 <?php
+umask(0000);
 
 ini_set('display_errors', 0);
 
