@@ -6,15 +6,19 @@
 
 {% block body %}
     <h1>
-        Bookmarks
+        {{ 'title.bookmarks_list'|trans }}
     </h1>
     {% if bookmarks is defined and bookmarks|length %}
         <ul>
             {% for row in bookmarks %}
-
-                <li><a href="{{ url('bookmark_view', {'bookmarkId': row.id}) }}">
-                        {{ row.title }}
-                    </a>, {{ row.url }}</li>
+                <li>
+                    {#<a href="{{ url('bookmark_view', {'bookmarkId': row.id}) }}">
+                    {{ row.title }}</a>, {{ row.url }}#}
+                    <a href="{{ url('bookmark_view', {'bookmarkId': row.id}) }}"
+                       title="{{ 'label.view'|trans }}">
+                        {{ 'label.view'|trans({'%title%': row.title}) }}
+                    </a>
+                </li>
             {% endfor %}
         </ul>
     {% else %}

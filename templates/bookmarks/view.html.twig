@@ -1,12 +1,17 @@
-{% extends "layout.html.twig" %}
+{% extends "base.html.twig" %}
 {% block title %}Bookmark {{ bookmarkId }}{% endblock %}
-{% block content %}
+{% block body %}
+    <h1>
+        {{ 'title.bookmark_view'|trans({'%id%': bookmarkId}) }}
+    </h1>
     <p>
         {{ bookmark.title }}
         {{ bookmark.url }}
-        {% for tag in bookmark.tags %}
-            {{ tag }}
-        {% endfor %}
+        <ul>{% for tag in bookmark.tags %}
+            <li>{{ tag }}</li>
+        {% endfor %}</ul>
     </p>
-    <a href="{{ url('bookmark_index') }}">Main page</a>
+    <a href="{{ url('bookmark_index') }}" title="{{ 'label.back_to_list'|trans }}">
+        {{ 'label.back_to_list'|trans }}
+    </a>
 {% endblock %}
