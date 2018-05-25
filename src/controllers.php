@@ -10,6 +10,7 @@ use Controllers\BookmarkController;
 //Request::setTrustedProxies(array('127.0.0.1'));
 
 $app->mount('/bookmarks', new BookmarkController());
+$app->mount('/tags', new \Controllers\TagsController());
 
 $app->get('/', function () use ($app) {
     return $app['twig']->render('index.html.twig', array());

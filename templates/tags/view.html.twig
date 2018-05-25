@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    View tag #{{ tag.id }}
+{% endblock %}
+
+{% block body %}
+    <h1>Tag #{{ tag.id }}</h1>
+
+    {% if tag|length %}
+        <div>
+            #{{ tag.id }} => {{ tag.name }}
+        </div>
+    {% else %}
+        <div>
+            No tag found!
+        </div>
+    {% endif %}
+    <a href="{{ url('tag_index') }}" title="{{ 'label.back_to_list'|trans }}">{{ 'label.back_to_list'|trans }}</a>
+{% endblock %}

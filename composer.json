@@ -24,7 +24,9 @@
         "symfony/validator": "~2.8|^3.0",
         "twbs/bootstrap": "^4.1",
         "phpmd/phpmd": "^2.6",
-        "symfony/intl": "^3.4"
+        "symfony/intl": "^3.4",
+        "fortawesome/font-awesome": "^4.7",
+        "doctrine/dbal": "^2.5"
     },
     "autoload": {
         "psr-0": { "": "src/" }
@@ -41,6 +43,7 @@
         ]
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.2"
+        "squizlabs/php_codesniffer": "^3.2",
+        "sorien/silex-dbal-profiler": "^2.0"
     }
 }

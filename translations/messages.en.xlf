@@ -16,7 +16,11 @@
             </trans-unit>
             <trans-unit id="label.view">
                 <source>label.view</source>
-                <target>Wyświetl %title%</target>
+                <target>Show %title%</target>
+            </trans-unit>
+            <trans-unit id="title.tags_list">
+                <source>title.tags_list</source>
+                <target>Tags List</target>
             </trans-unit>
         </body>
     </file>

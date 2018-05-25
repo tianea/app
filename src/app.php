@@ -6,6 +6,7 @@ use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\HttpFragmentServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
+use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 
@@ -29,6 +30,7 @@ $app->register(
         ],
     ]
 );
+
 $app->register(new LocaleServiceProvider());
 $app->register(
     new TranslationServiceProvider(),
@@ -42,7 +44,24 @@ $app->extend('translator', function ($translator, $app) {
     $translator->addResource('xliff', __DIR__.'/../translations/validators.en.xlf', 'en', 'validators');
     $translator->addResource('xliff', __DIR__.'/../translations/messages.pl.xlf', 'pl', 'messages');
     $translator->addResource('xliff', __DIR__.'/../translations/validators.pl.xlf', 'pl', 'validators');
-
     return $translator;
 });
+
+$app->register(
+    new DoctrineServiceProvider(),
+    [
+        'db.options' => [
+            'driver'    => 'pdo_mysql',
+            'host'      => 'localhost',
+            'dbname'    => 'tabela',
+            'user'      => 'root',
+            'password'  => '1234',
+            'charset'   => 'utf8',
+            'driverOptions' => [
+                1002 => 'SET NAMES utf8',
+            ],
+        ],
+    ]
+);
+
 return $app;
