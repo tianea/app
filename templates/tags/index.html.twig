@@ -2,28 +2,28 @@
 
 
 {% block title %}
-    {{ 'label.tag_index'|trans }}
+    {{ 'label.tags_index'|trans }}
 {% endblock %}
 
 {% block body %}
 
-    <h1>{{ 'label.tag_index'|trans }}</h1>
+    <h1>{{ 'label.tags_index'|trans }}</h1>
 
     {% if paginator.data|length %}
         <ul>
             {% for row in paginator.data %}
                 <li>{{ row.name }}
-                    <a href="{{ url('tag_view', {'id': row.id}) }}" title="{{ 'label.view'|trans }}">
+                    <a href="{{ url('tags_view', {'id': row.id}) }}" title="{{ 'label.view'|trans }}">
                         {{ 'label.view'|trans }}
                     </a>
                     <br><br>
-                    <a href="{{ url('tag_edit', {'id': row.id}) }}" title="{{ 'title.tag_edit'|trans({'%id%': row.id}) }}">
-                        {{ 'title.tag_edit'|trans({'%id%': row.id}) }}
+                    {#<a href="{{ url('tags_edit', {'id': row.id}) }}" title="{{ 'title.tags_edit'|trans({'%id%': row.id}) }}">
+                        {{ 'title.tags_edit'|trans({'%id%': row.id}) }}
                     </a>
                     <br>
-                    <a href="{{ url('tag_delete',{'id': row.id}) }}" title="{{ 'title.tag_delete'|trans({'%id%': row.id}) }}">
-                        {{ 'title.tag_delete'|trans({'%id%': row.id}) }}
-                    </a>
+                    <a href="{{ url('tags_delete',{'id': row.id}) }}" title="{{ 'title.tags_delete'|trans({'%id%': row.id}) }}">
+                        {{ 'title.tags_delete'|trans({'%id%': row.id}) }}
+                    </a>#}
                 </li>
                 <br>
             {% endfor %}
@@ -37,11 +37,11 @@
     {# ... #}
     {% include 'default/_paginator.html.twig' with {
     paginator: paginator,
-    route_name: 'tag_index_paginated',
+    route_name: 'tags_index_paginated',
     } %}
-    {# ... #}
-    <a href="{{ url('tag_add') }}" title="{{ 'title.tag_add'|trans }}">
-        {{ 'title.tag_add'|trans }}
-    </a>
+    {# ...
+    <a href="{{ url('tags_add') }}" title="{{ 'title.tags_add'|trans }}">
+        {{ 'title.tags_add'|trans }}
+    </a>#}
 
 {% endblock %}

@@ -36,6 +36,9 @@
             "dev-master": "2.0.x-dev"
         }
     },
+    "config": {
+        "process-timeout": 0
+    },
     "scripts": {
         "run": [
             "echo 'Started web server on http://localhost:8888'",

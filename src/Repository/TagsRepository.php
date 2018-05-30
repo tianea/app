@@ -5,12 +5,20 @@
 namespace Repository;
 
 use Doctrine\DBAL\Connection;
+use Utils\Paginator;
 
 /**
  * Class TagsRepository.
  */
 class TagsRepository
 {
+    /**
+     * Number of items per page.
+     *
+     * const int NUM_ITEMS
+     */
+    const NUM_ITEMS = 1;
+
     /**
      * Doctrine DBAL connection.
      *
@@ -35,11 +43,29 @@ class TagsRepository
      */
     public function findAll()
     {
-        $queryBuilder = $this->db->createQueryBuilder();
-        $queryBuilder->select('id', 'name')
-            ->from('si_tags');
+        $queryBuilder = $this->queryAll();
 
         return $queryBuilder->execute()->fetchAll();
+    }
+
+    /**
+     * Get records paginated.
+     *
+     * @param int $page Current page number
+     *
+     * @return array Result
+     */
+    public function findAllPaginated($page = 1)
+    {
+        $countQueryBuilder = $this->queryAll()
+            ->select('COUNT(DISTINCT t.id) AS total_results')
+            ->setMaxResults(1);
+
+        $paginator = new Paginator($this->queryAll(), $countQueryBuilder);
+        $paginator->setCurrentPage($page);
+        $paginator->setMaxPerPage(static::NUM_ITEMS);
+
+        return $paginator->getCurrentPageResults();
     }
 
     /**
@@ -51,10 +77,8 @@ class TagsRepository
      */
     public function findOneById($id)
     {
-        $queryBuilder = $this->db->createQueryBuilder();
-        $queryBuilder->select('id', 'name')
-            ->from('si_tags')
-            ->where('id = :id')
+        $queryBuilder = $this->queryAll();
+        $queryBuilder->where('t.id = :id')
             ->setParameter(':id', $id, \PDO::PARAM_INT);
         $result = $queryBuilder->execute()->fetch();
 
@@ -62,59 +86,15 @@ class TagsRepository
     }
 
     /**
-     * Number of items per page.
+     * Query all records.
      *
-     * const int NUM_ITEMS
+     * @return \Doctrine\DBAL\Query\QueryBuilder Result
      */
-    const NUM_ITEMS = 1;
-// ...
-    /**
-     * Get records paginated.
-     *
-     * @param int $page Current page number
-     *
-     * @return array Result
-     */
-
-    public function findAllPaginated($page = 1)
+    protected function queryAll()
     {
-        $queryBuilder = $this->queryAll();
-        $queryBuilder->setFirstResult(($page - 1) * static::NUM_ITEMS)
-            ->setMaxResults(static::NUM_ITEMS);
+        $queryBuilder = $this->db->createQueryBuilder();
 
-        $pagesNumber = $this->countAllPages();
-
-        $paginator = [
-            'page' => ($page < 1 || $page > $pagesNumber) ? 1 : $page,
-            'max_results' => static::NUM_ITEMS,
-            'pages_number' => $pagesNumber,
-            'data' => $queryBuilder->execute()->fetchAll(),
-        ];
-
-        return $paginator;
-    }
-// ...
-    /**
-     * Count all pages.
-     *
-     * @return int Result
-     */
-    protected function countAllPages()
-    {
-        $pagesNumber = 1;
-
-        $queryBuilder = $this->queryAll();
-        $queryBuilder->select('COUNT(DISTINCT t.id) AS total_results')
-            ->setMaxResults(1);
-
-        $result = $queryBuilder->execute()->fetch();
-
-        if ($result) {
-            $pagesNumber =  ceil($result['total_results'] / static::NUM_ITEMS);
-        } else {
-            $pagesNumber = 1;
-        }
-
-        return $pagesNumber;
+        return $queryBuilder->select('t.id', 't.name')
+            ->from('si_tags', 't');
     }
 }
