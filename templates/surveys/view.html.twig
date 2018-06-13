@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    View tag #{{ tag.id }}
+    View survey #{{ survey.id }}
 {% endblock %}
 
 {% block body %}
-    <h1>Tag #{{ tag.id }}</h1>
-    #{{ tag.id }} => {{ tag.name }}
+    <h1>Survey #{{ survey.id }}</h1>
+    #{{ survey.id }} => {{ survey.name }}
 
     {#{% if tag|length %}
         <div>
@@ -17,5 +17,5 @@
             No tag found!
         </div>
     {% endif %}#}
-    <a href="{{ url('tags_index') }}" title="{{ 'label.back_to_list'|trans }}">{{ 'label.back_to_list'|trans }}</a>
+    <a href="{{ url('surveys_index') }}" title="{{ 'label.back_to_list'|trans }}">{{ 'label.back_to_list'|trans }}</a>
 {% endblock %}

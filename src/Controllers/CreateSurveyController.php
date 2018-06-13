@@ -1,19 +1,19 @@
 <?php
 /**
- * Tags controller.
+ * CreateSurvey controller.
  */
 namespace Controllers;
 
-use Repository\TagsRepository;
+use Repository\SurveyRepository;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
-use Form\TagType;
+use Form\CreateSurveyType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class TagsController.
+ * Class CreateSurveyController.
  */
-class TagsController implements ControllerProviderInterface
+class CreateSurveyController implements ControllerProviderInterface
 {
     /**
      * {@inheritdoc}
@@ -21,16 +21,16 @@ class TagsController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $controller = $app['controllers_factory'];
-        $controller->get('/', [$this, 'indexAction'])->bind('tags_index');
+        $controller->get('/', [$this, 'indexAction'])->bind('surveys_index');
         $controller->get('/page/{page}', [$this, 'indexAction'])
             ->value('page', 1)
-            ->bind('tags_index_paginated');
+            ->bind('surveys_index_paginated');
         $controller->get('/{id}', [$this, 'viewAction'])
             ->assert('id', '[1-9]\d*')
-            ->bind('tags_view');
+            ->bind('surveys_view');
         $controller->match('/add', [$this, 'addAction'])
             ->method('POST|GET')
-            ->bind('tags_add');
+            ->bind('survey_add');
 
         return $controller;
     }
@@ -45,11 +45,11 @@ class TagsController implements ControllerProviderInterface
 
     public function indexAction(Application $app, $page = 1)
     {
-        $tagsRepository = new TagsRepository($app['db']);
+        $surveyRepository = new SurveyRepository($app['db']);
 
         return $app['twig']->render(
-            'tags/index.html.twig',
-            ['paginator' => $tagsRepository->findAllPaginated($page)]
+            'surveys/index.html.twig',
+            ['paginator' => $surveyRepository->findAllPaginated($page)]
         );
     }
 
@@ -63,16 +63,16 @@ class TagsController implements ControllerProviderInterface
      */
     public function viewAction(Application $app, $id)
     {
-        $tagsRepository = new TagsRepository($app['db']);
-        $tag = $tagsRepository->findOneById($id);
+        $surveyRepository = new SurveyRepository($app['db']);
+        $survey = $surveyRepository->findOneById($id);
 
-        if (!isset($tag) || !count($tag)) {
+        if (!isset($survey) || !count($survey)) {
             $app->abort('404', 'Invalid entry');
         }
 
         return $app['twig']->render(
-            'tags/view.html.twig',
-            ['tag' => $tag]
+            'surveys/view.html.twig',
+            ['survey' => $survey]
         );
     }
 
@@ -86,14 +86,14 @@ class TagsController implements ControllerProviderInterface
      */
     public function addAction(Application $app, Request $request)
     {
-        $tag = [];
+        $survey = [];
 
-        $form = $app['form.factory']->createBuilder(TagType::class, $tag)->getForm();
+        $form = $app['form.factory']->createBuilder(CreateSurveyType::class, $survey)->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tagsRepository = new TagsRepository($app['db']);
-            $tagsRepository->save($form->getData());
+            $surveyRepository = new SurveyRepository($app['db']);
+            $surveyRepository->save($form->getData());
 
             $app['session']->getFlashBag()->add(
                 'messages',
@@ -103,13 +103,13 @@ class TagsController implements ControllerProviderInterface
                 ]
             );
 
-            return $app->redirect($app['url_generator']->generate('tags_index'), 301);
+            return $app->redirect($app['url_generator']->generate('surveys_index'), 301);
         }
 
         return $app['twig']->render(
-            'tags/add.html.twig',
+            'surveys/add.html.twig',
             [
-                'tag' => $tag,
+                'survey' => $survey,
                 'form' => $form->createView(),
             ]
         );

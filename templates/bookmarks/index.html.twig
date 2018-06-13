@@ -10,14 +10,18 @@
     </h1>
     {% if bookmarks is defined and bookmarks|length %}
         <ul>
-            {% for row in bookmarks %}
+            {% for bookmark in bookmarks %}
                 <li>
-                    {#<a href="{{ url('bookmark_view', {'bookmarkId': row.id}) }}">
-                    {{ row.title }}</a>, {{ row.url }}#}
-                    <a href="{{ url('bookmark_view', {'bookmarkId': row.id}) }}"
-                       title="{{ 'label.view'|trans }}">
-                        {{ 'label.view'|trans({'%title%': row.title}) }}
+                    {#<a href="{{ url('bookmark_view', {'bookmarkId': bookmark.id}) }}">
+                    {{ bookmark.title }}</a>, {{ bookmark.url }}#}
+                    <a href="{{ url('bookmark_view', {'bookmarkId': bookmark.id}) }}"
+                       title="{{ bookmark.title }}">
+                        {{ bookmark.title }}, {{ bookmark.id }}, {{ bookmark.url }}
                     </a>
+                    {% for tag in bookmark.tags %}
+                        {{ tag }}
+                    {% endfor %}
+                {#{{ bookmark.tags.1 }}#}
                 </li>
             {% endfor %}
         </ul>

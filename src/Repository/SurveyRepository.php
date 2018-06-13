@@ -10,14 +10,14 @@ use Utils\Paginator;
 /**
  * Class TagsRepository.
  */
-class TagsRepository
+class SurveyRepository
 {
     /**
      * Number of items per page.
      *
      * const int NUM_ITEMS
      */
-    const NUM_ITEMS = 3;
+    const NUM_ITEMS = 5;
 
     /**
      * Doctrine DBAL connection.
@@ -95,7 +95,7 @@ class TagsRepository
         $queryBuilder = $this->db->createQueryBuilder();
 
         return $queryBuilder->select('t.id', 't.name')
-            ->from('si_tags', 't');
+            ->from('survey', 't');
     }
 
     /**
@@ -105,17 +105,17 @@ class TagsRepository
      *
      * @return boolean Result
      */
-    public function save($tag)
+    public function save($survey)
     {
-        if (isset($tag['id']) && ctype_digit((string) $tag['id'])) {
+        if (isset($survey['id']) && ctype_digit((string) $survey['id'])) {
             // update record
-            $id = $tag['id'];
-            unset($tag['id']);
+            $id = $survey['id'];
+            unset($survey['id']);
 
-            return $this->db->update('si_tags', $tag, ['id' => $id]);
+            return $this->db->update('survey', $survey, ['id' => $id]);
         } else {
             // add new record
-            return $this->db->insert('si_tags', $tag);
+            return $this->db->insert('survey', $survey);
         }
     }
 }
