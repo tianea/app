@@ -87,14 +87,14 @@ $app->register(
                 'form' => [
                     'login_path' => 'auth_login',
                     'check_path' => 'auth_login_check',
-                    'default_target_path' => 'tag_index',
+                    'default_target_path' => 'surveys_index',
                     'username_parameter' => 'login_type[login]',
                     'password_parameter' => 'login_type[password]',
                 ],
                 'anonymous' => true,
                 'logout' => [
                     'logout_path' => 'auth_logout',
-                    'target_url' => 'tag_index',
+                    'target_url' => 'surveys_index',
                 ],
                 'users' => function () use ($app) {
                     return new Provider\UserProvider($app['db']);
@@ -116,6 +116,6 @@ $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
 
-//dump($app['security.encoder.bcrypt']->encodePassword('jTE7cm666Xk6', 'haslo'));
+//dump($app['security.encoder.bcrypt']->encodePassword('haslo', ''));
 
 return $app;

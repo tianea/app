@@ -12,9 +12,9 @@
     {% if paginator.data|length %}
         <ul>
             {% for row in paginator.data %}
-                <li>{{ row.name }}
-                    <a href="{{ url('surveys_view', {'id': row.id}) }}" title="{{ 'label.view'|trans }}">
-                        {{ 'label.view'|trans }}
+                <li>
+                    <a href="{{ url('surveys_view', {'id': row.id}) }}" title="{{ 'row.name' }}">
+                        {{ row.name }}
                     </a>
                     <br><br>
                     {#<a href="{{ url('tags_edit', {'id': row.id}) }}" title="{{ 'title.tags_edit'|trans({'%id%': row.id}) }}">

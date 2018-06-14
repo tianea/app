@@ -7,13 +7,13 @@ namespace Controllers;
 use Repository\SurveyRepository;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
-use Form\CreateSurveyType;
+use Form\SurveyType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class CreateSurveyController.
+ * Class SurveyController.
  */
-class CreateSurveyController implements ControllerProviderInterface
+class SurveyController implements ControllerProviderInterface
 {
     /**
      * {@inheritdoc}
@@ -31,6 +31,9 @@ class CreateSurveyController implements ControllerProviderInterface
         $controller->match('/add', [$this, 'addAction'])
             ->method('POST|GET')
             ->bind('survey_add');
+        $controller->get('/start/{id}', [$this, 'indexAction'])
+            ->assert('id', '[1-9]\d*')
+            ->bind('survey_start');
 
         return $controller;
     }
@@ -88,7 +91,7 @@ class CreateSurveyController implements ControllerProviderInterface
     {
         $survey = [];
 
-        $form = $app['form.factory']->createBuilder(CreateSurveyType::class, $survey)->getForm();
+        $form = $app['form.factory']->createBuilder(SurveyType::class, $survey)->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

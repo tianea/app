@@ -94,8 +94,9 @@ class SurveyRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('t.id', 't.name')
-            ->from('survey', 't');
+        return $queryBuilder->select('t.id', 't.name', 't.description', 't.user_id', 'u.login')
+            ->from('survey', 't')
+            ->innerJoin('t', 'user', 'u', 't.user_id=u.id');
     }
 
     /**

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class TagType.
  */
-class CreateSurveyType extends AbstractType
+class SurveyType extends AbstractType
 {
     /**
      * {@inheritdoc}

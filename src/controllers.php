@@ -8,14 +8,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Controllers\BookmarkController;
 use Controllers\TagsController;
 use Controllers\AuthController;
-use Controllers\CreateSurveyController;
+use Controllers\SurveyController;
+use Controllers\UserController;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
 $app->mount('/bookmarks', new BookmarkController());
 $app->mount('/tags', new TagsController());
 $app->mount('/auth', new AuthController());
-$app->mount('/surveys', new CreateSurveyController());
+$app->mount('/surveys', new SurveyController());
+$app->mount('/user', new UserController());
 
 $app->get('/', function () use ($app) {
     return $app['twig']->render('index.html.twig', array());

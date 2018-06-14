@@ -9,7 +9,7 @@
 namespace Provider;
 
 use Doctrine\DBAL\Connection;
-use Repository\RolesRepository;
+use Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\User;
@@ -46,7 +46,7 @@ class UserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($login)
     {
-        $userRepository = new RolesRepository($this->db);
+        $userRepository = new UserRepository($this->db);
         $user = $userRepository->loadUserByLogin($login);
 
         return new User(

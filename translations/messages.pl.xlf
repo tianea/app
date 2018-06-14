@@ -6,22 +6,9 @@
                 <source>title.bookmarks_list</source>
                 <target>Lista zakładek</target>
             </trans-unit>
-            <trans-unit id="title.bookmark_view">
-                <source>title.bookmark_view</source>
-                <target>Zakładka #%id%</target>
-            </trans-unit>
-            <trans-unit id="label.back_to_list">
-                <source>label.back_to_list</source>
-                <target>Powrót do listy zakładek</target>
-            </trans-unit>
-            <trans-unit id="label.view">
-                <source>label.view</source>
-                <target>Wyświetl %title%</target>
-            </trans-unit>
-            <trans-unit id="title.tags_list">
-                <source>title.tags_list</source>
-                <target>Lista tagów</target>
-            </trans-unit>
+
+
+
         </body>
     </file>
 </xliff>

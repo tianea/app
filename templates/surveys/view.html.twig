@@ -5,17 +5,34 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Survey #{{ survey.id }}</h1>
-    #{{ survey.id }} => {{ survey.name }}
+    <div class="content">
+        <h1>{{ survey.name }}</h1>
+        <p>
+            Autor: <a href="{{ url('user_account', { 'id': survey.user_id }) }}">{{ survey.login }}</a>
+        </p>
+        <p>
+            {{ survey.description }}
+        </p>
+        <a class="btn btn-success" href="{{ url('survey_start', {'id': survey.id}) }}"
+           title="{{ 'label.survey_start'|trans }}">{{ 'label.survey_start'|trans }}</a>
+        <br>
+        <br>
+        {#<ul>
+            {% for question in survey.questions %}
+                <li>{{ question }}</li>
+        {% endfor %}</ul>#}
 
-    {#{% if tag|length %}
-        <div>
-            #{{ tag.id }} => {{ tag.name }}
-        </div>
-    {% else %}
-        <div>
-            No tag found!
-        </div>
-    {% endif %}#}
-    <a href="{{ url('surveys_index') }}" title="{{ 'label.back_to_list'|trans }}">{{ 'label.back_to_list'|trans }}</a>
+
+
+        {#{% if tag|length %}
+            <div>
+                #{{ tag.id }} => {{ tag.name }}
+            </div>
+        {% else %}
+            <div>
+                No tag found!
+            </div>
+        {% endif %}#}
+        <a class="btn btn-outline-dark" href="{{ url('surveys_index') }}" title="{{ 'label.back_to_list'|trans }}">{{ 'label.back_to_list'|trans }}</a>
+    </div>
 {% endblock %}

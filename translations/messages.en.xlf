@@ -6,22 +6,12 @@
                 <source>title.bookmarks_list</source>
                 <target>Bookmarks List</target>
             </trans-unit>
-            <trans-unit id="title.bookmark_view">
-                <source>title.bookmark_view</source>
-                <target>Bookmark #%id%</target>
-            </trans-unit>
-            <trans-unit id="label.back_to_list">
-                <source>label.back_to_list</source>
-                <target>Back to bookmark list</target>
-            </trans-unit>
-            <trans-unit id="label.view">
-                <source>label.view</source>
-                <target>Show %title%</target>
-            </trans-unit>
-            <trans-unit id="title.tags_list">
-                <source>title.tags_list</source>
-                <target>Tags List</target>
-            </trans-unit>
+
+
+
+
+
+
         </body>
     </file>
 </xliff>

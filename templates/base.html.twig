@@ -24,11 +24,11 @@
     <div class="container-fluid">
         <div class="btn-group pull-right" role="group" aria-label="{{ 'label.actions'|trans }}">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a class="btn btn-default" href="{{ url('auth_logout') }}" title="{{ 'auth.logout.label'|trans }}">
+                <a class="btn btn-primary" href="{{ url('auth_logout') }}" title="{{ 'auth.logout.label'|trans }}">
                     {{ 'auth.logout.label'|trans }}
                 </a>
             {% else %}
-                <a class="btn btn-default" href="{{ url('auth_login') }}" title="{{ 'auth.login.label'|trans }}">
+                <a class="btn btn-primary" href="{{ url('auth_login') }}" title="{{ 'auth.login.label'|trans }}">
                     {{ 'auth.login.label'|trans }}
                 </a>
             {% endif %}
