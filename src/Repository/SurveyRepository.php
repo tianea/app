@@ -102,21 +102,23 @@ class SurveyRepository
     /**
      * Save record.
      *
-     * @param array $tag Tag
-     *
+     * @param array $survey Survey
+     * @param int $userId UserId
      * @return boolean Result
      */
-    public function save($survey)
+    public function save($survey, $userId)
     {
         if (isset($survey['id']) && ctype_digit((string) $survey['id'])) {
             // update record
             $id = $survey['id'];
             unset($survey['id']);
 
-            return $this->db->update('survey', $survey, ['id' => $id]);
+            $this->db->update('survey', $survey, ['id' => $id]);
         } else {
             // add new record
-            return $this->db->insert('survey', $survey);
+            $survey['user_id'] = $userId;
+            $this->db->insert('survey', $survey);
         }
     }
+
 }

@@ -27,6 +27,9 @@
                 <a class="btn btn-primary" href="{{ url('auth_logout') }}" title="{{ 'auth.logout.label'|trans }}">
                     {{ 'auth.logout.label'|trans }}
                 </a>
+                <a class="btn btn-success" href="{{ url('survey_create') }}" title="{{ 'survey.create.label'|trans }}">
+                    {{ 'survey.create.label'|trans }}
+                </a>
             {% else %}
                 <a class="btn btn-primary" href="{{ url('auth_login') }}" title="{{ 'auth.login.label'|trans }}">
                     {{ 'auth.login.label'|trans }}

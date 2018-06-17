@@ -1,6 +1,6 @@
 <?php
 /**
- * Tag type.
+ * Survey type.
  */
 namespace Form;
 
@@ -26,14 +26,14 @@ class SurveyType extends AbstractType
                 'label' => 'label.name',
                 'required' => true,
                 'attr' => [
-                    'max_length' => 128,
+                    'max_length' => 180,
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length(
                         [
                             'min' => 3,
-                            'max' => 128,
+                            'max' => 180,
                         ]
                     ),
                 ],
@@ -51,6 +51,28 @@ class SurveyType extends AbstractType
                 ]
             ]
         );
+
+        $builder->add(
+            'question',
+            TextType::class,
+            [
+                'label' => 'label.description',
+                'required' => true,
+                'attr' => [
+                    'max_length' => 450,
+                ],
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Length(
+                        [
+                            'min' => 5,
+                            'max' => 450,
+                        ]
+                    ),
+                ]
+            ]
+        );
+
     }
 
     /**
@@ -58,6 +80,6 @@ class SurveyType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'tag_type';
+        return 'survey_type';
     }
 }

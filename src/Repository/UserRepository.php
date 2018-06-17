@@ -187,6 +187,26 @@ class UserRepository
     }
 
     /**
+     * @param string $userLogin
+     *
+     * @return \Doctrine\DBAL\Query\QueryBuilder Result
+     */
+    public function findUserIdByLogin($userLogin)
+    {
+        $queryBuilder = $this->queryAll();
+
+        $queryBuilder->select('us.id')
+            ->from('user', 'us')
+            ->where('us.login = :login')
+                ->setParameter(':login', $userLogin, \PDO::PARAM_STR);
+        $result = $queryBuilder->execute()->fetch();
+        $userId = $result['id'];
+
+        return $userId;
+    }
+
+
+    /**
      * Query all records.
      *
      * @return \Doctrine\DBAL\Query\QueryBuilder Result

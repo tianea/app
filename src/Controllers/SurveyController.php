@@ -5,6 +5,7 @@
 namespace Controllers;
 
 use Repository\SurveyRepository;
+use Repository\UserRepository;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Form\SurveyType;
@@ -28,9 +29,9 @@ class SurveyController implements ControllerProviderInterface
         $controller->get('/{id}', [$this, 'viewAction'])
             ->assert('id', '[1-9]\d*')
             ->bind('surveys_view');
-        $controller->match('/add', [$this, 'addAction'])
+        $controller->match('/create', [$this, 'addAction'])
             ->method('POST|GET')
-            ->bind('survey_add');
+            ->bind('survey_create');
         $controller->get('/start/{id}', [$this, 'indexAction'])
             ->assert('id', '[1-9]\d*')
             ->bind('survey_start');
@@ -89,14 +90,19 @@ class SurveyController implements ControllerProviderInterface
      */
     public function addAction(Application $app, Request $request)
     {
+        $userRepository = new UserRepository($app['db']);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
         $survey = [];
+
+        $userId = $userRepository->findUserIdByLogin($userLogin);
 
         $form = $app['form.factory']->createBuilder(SurveyType::class, $survey)->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $surveyRepository = new SurveyRepository($app['db']);
-            $surveyRepository->save($form->getData());
+            $surveyRepository->save($form->getData(), $userId);
+
 
             $app['session']->getFlashBag()->add(
                 'messages',
