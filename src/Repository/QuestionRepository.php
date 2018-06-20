@@ -1,23 +1,27 @@
 <?php
 /**
- * Survey repository.
+ * Created by PhpStorm.
+ * User: user
+ * Date: 17.06.18
+ * Time: 21:00
  */
+
 namespace Repository;
 
 use Doctrine\DBAL\Connection;
 use Utils\Paginator;
 
 /**
- * Class SurveyRepository.
- */
-class SurveyRepository
+ * Class QuestionRepository
+ **/
+class QuestionRepository
 {
     /**
      * Number of items per page.
      *
      * const int NUM_ITEMS
      */
-    const NUM_ITEMS = 5;
+    const NUM_ITEMS = 20;
 
     /**
      * Doctrine DBAL connection.
@@ -27,9 +31,8 @@ class SurveyRepository
     protected $db;
 
     /**
-     * SurveyRepository constructor.
-     *
-     * @param \Doctrine\DBAL\Connection $db
+     * QuestionRepository constructor.
+     * @param Connection $db
      */
     public function __construct(Connection $db)
     {
@@ -37,9 +40,7 @@ class SurveyRepository
     }
 
     /**
-     * Fetch all records.
-     *
-     * @return array Result
+     * @return mixed
      */
     public function findAll()
     {
@@ -58,7 +59,7 @@ class SurveyRepository
     public function findAllPaginated($page = 1)
     {
         $countQueryBuilder = $this->queryAll()
-            ->select('COUNT(DISTINCT t.id) AS total_results')
+            ->select('COUNT(DISTINCT o.id) AS total_results')
             ->setMaxResults(1);
 
         $paginator = new Paginator($this->queryAll(), $countQueryBuilder);
@@ -69,33 +70,16 @@ class SurveyRepository
     }
 
     /**
-     * Find records by survey id
+     * Find one record.
      *
      * @param string $id Element id
      *
      * @return array
      */
-    public function findQuestionsBySurvey($id)
-    {
-        $queryBuilder = $this->queryAll();
-        $queryBuilder->where('t.survey_id = :id')
-            ->setParameter(':id', $id, \PDO::PARAM_INT);
-        $result = $queryBuilder->execute()->fetch();
-
-        return !$result ? [] : $result;
-    }
-
-    /**
-     * Find one record.
-     *
-     * @param string $id Element id
-     *
-     * @return array|mixed Result
-     */
     public function findOneById($id)
     {
         $queryBuilder = $this->queryAll();
-        $queryBuilder->where('t.id = :id')
+        $queryBuilder->where('o.id = :id')
             ->setParameter(':id', $id, \PDO::PARAM_INT);
         $result = $queryBuilder->execute()->fetch();
 
@@ -103,27 +87,25 @@ class SurveyRepository
     }
 
     /**
-     * Save record.
+     * @param array $openQuestion OpenQuestion
      *
-     * @param array $survey Survey
+     * @param int   $surveyId     SurveyId
      *
-     * @param int   $userId UserId
-     *
-     * @return boolean Result
+     * @return int
      */
-    public function save($survey, $userId)
+    public function save($openQuestion, $surveyId)
     {
-        if (isset($survey['id']) && ctype_digit((string) $survey['id'])) {
+        if (isset($openQuestion['id']) && ctype_digit((string) $openQuestion['id'])) {
             // update record
-            $id = $survey['id'];
-            unset($survey['id']);
+            $id = $openQuestion['id'];
+            unset($openQuestion['id']);
 
-            $this->db->update('survey', $survey, ['id' => $id]);
+            $this->db->update('open_question', $openQuestion, ['id' => $id]);
         } else {
             // add new record
-            $survey['user_id'] = $userId;
+            $openQuestion['survey_id'] = $surveyId;
 
-            $this->db->insert('survey', $survey);
+            $this->db->insert('open_question', $openQuestion);
         }
     }
 
@@ -136,8 +118,10 @@ class SurveyRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('t.id', 't.name', 't.description', 't.user_id', 'u.login')
-            ->from('survey', 't')
-            ->innerJoin('t', 'user', 'u', 't.user_id=u.id');
+        return $queryBuilder->select('o.id', 'o.question', 'o.survey_id')
+            ->from('open_question', 'o')
+            ->innerJoin('o', 'survey', 's', 'o.survey_id=s.id');
     }
+
+
 }

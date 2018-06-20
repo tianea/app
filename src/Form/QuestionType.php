@@ -1,7 +1,11 @@
 <?php
 /**
- * Survey type.
+ * Created by PhpStorm.
+ * User: user
+ * Date: 18.06.18
+ * Time: 19:47
  */
+
 namespace Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -9,55 +13,45 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
- * Class SurveyType.
- */
-class SurveyType extends AbstractType
+ * Class SurveyType
+ **/
+class QuestionType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'name',
+            'question',
             TextType::class,
             [
-                'label' => 'label.name',
+                'label' => 'label.question',
                 'required' => true,
                 'attr' => [
-                    'max_length' => 180,
+                    'max_length' => 450,
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length(
                         [
-                            'min' => 3,
-                            'max' => 180,
+                            'min' => 5,
+                            'max' => 450,
                         ]
                     ),
-                ],
-            ]
-        );
-
-        $builder->add(
-            'description',
-            TextType::class,
-            [
-                'label' => 'label.description',
-                'required' => false,
-                'attr' => [
-                    'max_length' => 1500,
                 ]
             ]
         );
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getBlockPrefix()
     {
-        return 'survey_type';
+        return 'question_type';
     }
 }

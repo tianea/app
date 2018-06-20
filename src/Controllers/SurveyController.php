@@ -3,14 +3,12 @@
  * CreateSurvey controller.
  */
 namespace Controllers;
-
 use Repository\SurveyRepository;
 use Repository\UserRepository;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Form\SurveyType;
 use Symfony\Component\HttpFoundation\Request;
-
 /**
  * Class SurveyController.
  */
@@ -35,10 +33,8 @@ class SurveyController implements ControllerProviderInterface
         $controller->get('/start/{id}', [$this, 'indexAction'])
             ->assert('id', '[1-9]\d*')
             ->bind('survey_start');
-
         return $controller;
     }
-
     /**
      * Index action.
      *
@@ -46,7 +42,6 @@ class SurveyController implements ControllerProviderInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-
     public function indexAction(Application $app, $page = 1)
     {
         $surveyRepository = new SurveyRepository($app['db']);
@@ -56,7 +51,6 @@ class SurveyController implements ControllerProviderInterface
             ['paginator' => $surveyRepository->findAllPaginated($page)]
         );
     }
-
     /**
      * View action.
      *
@@ -67,6 +61,10 @@ class SurveyController implements ControllerProviderInterface
      */
     public function viewAction(Application $app, $id)
     {
+        $userRepository = new UserRepository($app['db']);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
+        $userId = $userRepository->findUserIdByLogin($userLogin);
+
         $surveyRepository = new SurveyRepository($app['db']);
         $survey = $surveyRepository->findOneById($id);
 
@@ -76,10 +74,12 @@ class SurveyController implements ControllerProviderInterface
 
         return $app['twig']->render(
             'surveys/view.html.twig',
-            ['survey' => $survey]
+            [
+                'userId' => $userId,
+                'survey' => $survey,
+            ]
         );
     }
-
     /**
      * Add action.
      *
@@ -103,7 +103,6 @@ class SurveyController implements ControllerProviderInterface
             $surveyRepository = new SurveyRepository($app['db']);
             $surveyRepository->save($form->getData(), $userId);
 
-
             $app['session']->getFlashBag()->add(
                 'messages',
                 [
@@ -123,7 +122,6 @@ class SurveyController implements ControllerProviderInterface
             ]
         );
     }
-
     /**
      * Index action.
      *

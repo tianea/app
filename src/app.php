@@ -116,6 +116,6 @@ $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
 
-//dump($app['security.encoder.bcrypt']->encodePassword('haslo', ''));
+//dump($app['security.encoder.bcrypt']->encodePassword('abc123', ''));
 
 return $app;

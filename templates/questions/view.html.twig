@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+    {{ 'label.questions_view'|trans }}
+{% endblock %}
+
+{% block body %}
+
+    <h1>{{ 'label.questions_view'|trans }}</h1>
+
+    {% if paginator.data|length %}
+        <ul>
+        {% for row in paginator.data %}
+            <li>
+        <a href="{{ url('surveys_view', {'id': row.id}) }}" title="{{ 'row.name' }}">
+            {{ row.name }}

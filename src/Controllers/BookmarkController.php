@@ -31,7 +31,7 @@ class BookmarkController implements ControllerProviderInterface
             $app->abort('404', 'Invalid entry');
         }
         return $app['twig']->render(
-            'bookmarks/index.html.twig',
+            'bookmarks/view.html.twig',
             ['bookmarks' => $bookmarks]
         );
     }

@@ -50,7 +50,7 @@ class UserController implements ControllerProviderInterface
         $userRepository = new UserRepository($app['db']);
 
         return $app['twig']->render(
-            'users/index.html.twig',
+            'users/view.html.twig',
             ['paginator' => $userRepository->findAllPaginated($page)]
         );
     }

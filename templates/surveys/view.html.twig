@@ -15,6 +15,10 @@
         </p>
         <a class="btn btn-success" href="{{ url('survey_start', {'id': survey.id}) }}"
            title="{{ 'label.survey_start'|trans }}">{{ 'label.survey_start'|trans }}</a>
+        {% if userId is same as(survey.user_id) %}
+            <a class="btn btn-primary" href="{{ url('questions_view', {'id': survey.id}) }}"
+               title="{{ 'label.questions_view'|trans }}">{{ 'label.questions_view'|trans }}</a>
+        {% endif %}
         <br>
         <br>
         {#<ul>

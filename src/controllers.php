@@ -10,6 +10,7 @@ use Controllers\TagsController;
 use Controllers\AuthController;
 use Controllers\SurveyController;
 use Controllers\UserController;
+use Controllers\QuestionController;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
@@ -18,9 +19,10 @@ $app->mount('/tags', new TagsController());
 $app->mount('/auth', new AuthController());
 $app->mount('/surveys', new SurveyController());
 $app->mount('/user', new UserController());
+$app->mount('/questions', new QuestionController());
 
 $app->get('/', function () use ($app) {
-    return $app['twig']->render('index.html.twig', array());
+    return $app['twig']->render('view.html.twig', array());
 })
 ->bind('homepage')
 ;
