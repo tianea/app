@@ -22,17 +22,27 @@
 
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <div class="btn-group pull-right" role="group" aria-label="{{ 'label.actions'|trans }}">
+        <div class="btn-group" role="group" aria-label="{{ 'label.actions'|trans }}">
+            <div class="center">
+                <a class="btn btn-light btn-lg" href="{{ url('surveys_index') }}"
+                    title="Survey"> Survey
+            </a></div>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a class="btn btn-primary" href="{{ url('auth_logout') }}" title="{{ 'auth.logout.label'|trans }}">
+                <a class="btn btn-secondary" href="{{ url('auth_logout') }}" title="{{ 'auth.logout.label'|trans }}">
                     {{ 'auth.logout.label'|trans }}
                 </a>
-                <a class="btn btn-success" href="{{ url('survey_create') }}" title="{{ 'survey.create.label'|trans }}">
-                    {{ 'survey.create.label'|trans }}
+                <div class="right"><a class="btn btn-info" href="{{ url('survey_create') }}"
+                    title="{{ 'survey.create.label'|trans }}">{{ 'survey.create.label'|trans }}
                 </a>
+                <a class="btn btn-light" href="{{ url('my_profile') }}" title="{{ 'label.my_profile'|trans }}">
+                    {{ 'label.my_profile'|trans }}
+                </a></div>
             {% else %}
                 <a class="btn btn-primary" href="{{ url('auth_login') }}" title="{{ 'auth.login.label'|trans }}">
                     {{ 'auth.login.label'|trans }}
+                </a>
+                <a class="btn btn-light" href="{{ url('sign_up') }}" title="{{ 'label.sign_up'|trans }}">
+                {{ 'label.sign_up'|trans }}
                 </a>
             {% endif %}
         </div>

@@ -6,37 +6,33 @@
 
 {% block body %}
     <div class="content">
+
+
+
         <h1>{{ survey.name }}</h1>
         <p>
-            Autor: <a href="{{ url('user_account', { 'id': survey.user_id }) }}">{{ survey.login }}</a>
+            Autor: <a href="{{ url('user_account', { 'id': survey.user_id }) }}">
+                {{ survey.login }}</a>
         </p>
         <p>
             {{ survey.description }}
         </p>
-        <a class="btn btn-success" href="{{ url('survey_start', {'id': survey.id}) }}"
-           title="{{ 'label.survey_start'|trans }}">{{ 'label.survey_start'|trans }}</a>
+        <br><br>
         {% if userId is same as(survey.user_id) %}
             <a class="btn btn-primary" href="{{ url('questions_view', {'id': survey.id}) }}"
                title="{{ 'label.questions_view'|trans }}">{{ 'label.questions_view'|trans }}</a>
+            <a class="btn btn-secondary" href="{{ url('surveys_edit', {'id': survey.id}) }}"
+               title="{{ 'label.surveys_edit'|trans }}">{{ 'label.surveys_edit'|trans }}</a>
+            <a class="btn btn-danger" href="{{ url('surveys_delete', {'id': survey.id}) }}"
+               title="{{ 'label.surveys_delete'|trans }}">{{ 'label.surveys_delete'|trans }}</a>
+            {% else %}
+                <a class="btn btn-success" href="{{ url('survey_start', {'id': survey.id}) }}"
+                   title="{{ 'label.survey_start'|trans }}">{{ 'label.survey_start'|trans }}</a>
         {% endif %}
         <br>
-        <br>
-        {#<ul>
-            {% for question in survey.questions %}
-                <li>{{ question }}</li>
-        {% endfor %}</ul>#}
+        <br><br><br><br>
+        <a class="btn btn-outline-dark" href="{{ url('surveys_index') }}"
+           title="{{ 'label.back_to_list'|trans }}">{{ 'label.back_to_list'|trans }}</a>
 
-
-
-        {#{% if tag|length %}
-            <div>
-                #{{ tag.id }} => {{ tag.name }}
-            </div>
-        {% else %}
-            <div>
-                No tag found!
-            </div>
-        {% endif %}#}
-        <a class="btn btn-outline-dark" href="{{ url('surveys_index') }}" title="{{ 'label.back_to_list'|trans }}">{{ 'label.back_to_list'|trans }}</a>
-    </div>
+         </div>
 {% endblock %}

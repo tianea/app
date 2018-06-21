@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.surveys_delete'|trans({'%id%': survey.id}) }} {{ survey.name }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.surveys_delete'|trans({'%id%': survey.id})}} {{ survey.name }}</h1>
+    <p>{{ 'delete_warning'|trans }}</p>
+    {{ form_start(form, { method: 'post', action: url('surveys_delete', {'id': survey.id}) }) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="{{ 'action.delete'|trans }}" class="btn btn-danger" />
+    {{ form_end(form) }}
+    <a href="{{ url('surveys_index') }}" title="{{ 'label.back_to_list'|trans }}" class="btn btn-default">
+        <span class="fa fa-mail-reply" aria-hidden="true"></span>
+        {{ 'label.back_to_list'|trans }}
+    </a>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+    {{ 'label.questions_index'|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+    <h1>{{ 'label.questions_index_view'|trans }} {{ survey.name }}</h1>
+        <ol>
+            {% for row in questions %}
+                <li>
+                    {{ row.content }}
+                </li>
+                <br>
+            {% endfor %}
+        </ol>
+       {#<a href="{{ url('questions_add', {'id': questions.survey_id}) }}" title="{{ 'title.questions_add'|trans }}">
+            {{ 'title.questions_add'|trans }}
+        </a>#}
+    </div>
+{% endblock %}

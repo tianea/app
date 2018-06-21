@@ -117,6 +117,7 @@ class SurveyRepository
             // update record
             $id = $survey['id'];
             unset($survey['id']);
+            unset($survey['login']);
 
             $this->db->update('survey', $survey, ['id' => $id]);
         } else {
@@ -125,6 +126,16 @@ class SurveyRepository
 
             $this->db->insert('survey', $survey);
         }
+    }
+
+    /**
+     * @param array $survey Survey
+     *
+     * @return int
+     */
+    public function delete($survey)
+    {
+        return $this->db->delete('survey', ['id' => $survey['id']]);
     }
 
     /**

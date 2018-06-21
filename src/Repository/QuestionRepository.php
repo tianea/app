@@ -110,6 +110,40 @@ class QuestionRepository
     }
 
     /**
+     * Find all questions by survey id.
+     *
+     * @return mixed
+     */
+    public function findAllBySurveyId($id)
+    {
+        /*$queryBuilder = $this->queryAll();
+
+        $queryBuilder->select('op.id', 'op.content', 'op.survey_id')
+            ->from('open_question', 'op')
+            ->where('op.survey_id = s.id');
+
+        return $queryBuilder->execute();*/
+
+        $queryBuilder = $this->queryAll();
+        $queryBuilder->where('o.survey_id = :id')
+            ->setParameter(':id', $id, \PDO::PARAM_INT);
+        $result = $queryBuilder->execute()->fetchAll();
+
+        return !$result ? [] : $result;
+    }
+
+    public function findLinkedBySurveyId($surveyId){
+        $queryBuilder = $this->db->createQueryBuilder()
+            ->select('s.id')
+            ->from('survey', 's')
+            ->where('s.id = :survey_id')
+            ->setParameter(':survey_id', $surveyId, \PDO::PARAM_INT);
+        $result = $queryBuilder->execute()->fetchAll();
+
+        return isset($result) ? array_column($result, 'content') : [];
+    }
+
+    /**
      * Query all records.
      *
      * @return \Doctrine\DBAL\Query\QueryBuilder Result
@@ -118,7 +152,8 @@ class QuestionRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('o.id', 'o.question', 'o.survey_id')
+        return $queryBuilder
+            ->select('o.id', 'o.content', 'o.survey_id', 's.id', 's.name', 's.description', 's.user_id')
             ->from('open_question', 'o')
             ->innerJoin('o', 'survey', 's', 'o.survey_id=s.id');
     }

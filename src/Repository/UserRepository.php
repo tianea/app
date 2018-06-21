@@ -10,9 +10,13 @@ namespace Repository;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
+use Silex\Application;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Utils\Paginator;
 
+/**
+ * class UserRepository.
+ **/
 class UserRepository
 {
     /**
@@ -179,7 +183,7 @@ class UserRepository
     public function findOneById($id)
     {
         $queryBuilder = $this->queryAll();
-        $queryBuilder->where('us.id = :id')
+        $queryBuilder->where('u.id = :id')
             ->setParameter(':id', $id, \PDO::PARAM_INT);
         $result = $queryBuilder->execute()->fetch();
 
@@ -205,6 +209,47 @@ class UserRepository
         return $userId;
     }
 
+    /**
+     * @param Application $app
+     * @param $user
+     */
+    public function save(Application $app, $user)
+    {
+
+        $this->db->beginTransaction();
+
+        $roleRepository = new RoleRepository($this->db);
+
+        try {
+            $userRole['password'] = $app['security.encoder.bcrypt']->encodePassword($user['password'], '');
+            $userRole['login'] = $user['login'];
+            $userRole['role_id'] = $roleRepository->findIdByName('ROLE_USER');
+
+            unset($user['password']);
+
+            if (isset($user['id']) && ctype_digit((string)$user['id'])) {
+                // update record
+
+                $userRole['user_id'] = $user['id'];
+
+                $userId = $user['id'];
+
+                unset($user['id']);
+
+                $this->db->update('user', $user, ['id' => $userId]);
+                $this->db->update('user_role', $userRole, ['user_id' => $userId]);
+            } else {
+                // add new record
+
+                $this->db->insert('user', $user);
+                $userId = $this->db->lastInsertId();
+
+                $userRole['user_id'] = $userId;
+            }
+        } catch (UsernameNotFoundException $exception) {
+            throw $exception;
+        }
+    }
 
     /**
      * Query all records.
@@ -215,8 +260,9 @@ class UserRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('us.id', 'us.login')
-            ->from('user', 'us');
+        return $queryBuilder->select('u.id', 'u.login', 'u.name', 'u.age', 'u.gender', 'u.email', 'u.description', 'ur.user_id')
+            ->from('user', 'u')
+            ->innerJoin('u', 'user_role', 'ur', 'u.id = ur.user_id');
     }
 
 }

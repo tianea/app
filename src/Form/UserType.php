@@ -1,6 +1,9 @@
 <?php
 /**
- * Login form.
+ * Created by PhpStorm.
+ * User: user
+ * Date: 21.06.18
+ * Time: 09:17
  */
 
 namespace Form;
@@ -11,14 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Class LoginType.
- */
-class LoginType extends AbstractType
+class UserType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
@@ -63,13 +60,5 @@ class LoginType extends AbstractType
                 ],
             ]
         );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'login_type';
     }
 }

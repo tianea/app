@@ -2,9 +2,16 @@
 
 
 {% block title %}
-
+    {{ 'label.user_profile'|trans }} {{ user.login }}
 {% endblock %}
 
 {% block body %}
-
+    <div class="content">
+        <h1>{{ 'label.user_profile'|trans }} {{ user.login }}</h1>
+        <p><b>{{ 'label.user_name'|trans }}:</b> {{ user.name }}</p>
+        <p><b>{{ 'label.user_gender'|trans }}:</b> {{ user.gender }}</p>
+        <p><b>{{ 'label.user_age'|trans }}:</b> {{ user.age }}</p>
+        <p><b>{{ 'label.user_email'|trans }}:</b> {{ user.email }}</p>
+        <p><b>{{ 'label.user_description'|trans }}:</b> {{ user.description }}</p>
+    </div>
 {% endblock %}

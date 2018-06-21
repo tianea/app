@@ -46,23 +46,6 @@ $app->register(
         'db.options' => [
             'driver'    => 'pdo_mysql',
             'host'      => 'localhost',
-            'dbname'    => 'tabela',
-            'user'      => 'root',
-            'password'  => '1234',
-            'charset'   => 'utf8',
-            'driverOptions' => [
-                1002 => 'SET NAMES utf8',
-            ],
-        ],
-    ]
-);
-
-$app->register(
-    new DoctrineServiceProvider(),
-    [
-        'db.options' => [
-            'driver'    => 'pdo_mysql',
-            'host'      => 'localhost',
             'dbname'    => 'mydb',
             'user'      => 'root',
             'password'  => '1234',

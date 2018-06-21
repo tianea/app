@@ -9,6 +9,7 @@
 namespace Controllers;
 
 use Repository\QuestionRepository;
+use Repository\SurveyRepository;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,9 @@ class QuestionController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $controller = $app['controllers_factory'];
-        $controller->get('/', [$this, 'indexAction'])->bind('questions_view');
+        $controller->get('/{id}', [$this, 'indexAction'])
+            ->assert('id', '[1-9]\d*')
+            ->bind('questions_view');
         $controller->match('/add/{id}', [$this, 'addAction'])
             ->method('POST|GET')
             ->assert('id', '[1-9]\d*')
@@ -37,17 +40,24 @@ class QuestionController implements ControllerProviderInterface
 
     /**
      * @param Application $app
-     * @param int         $page
+     * @param int         $id
      *
      * @return mixed
      */
-    public function indexAction(Application $app, $page = 1)
+    public function indexAction(Application $app, $id)
     {
         $questionRepository = new QuestionRepository($app['db']);
+        $questions = $questionRepository->findAllBySurveyId($id);
+
+        $surveyRepository = new SurveyRepository($app['db']);
+        $survey = $surveyRepository->findOneById($id);
 
         return $app['twig']->render(
-            'questions/view.html.twig',
-            ['paginator' => $questionRepository->findAllPaginated($page)]
+            'questions/index.html.twig',
+            [
+                'questions' => $questions,
+                'survey' => $survey,
+            ]
         );
     }
 
