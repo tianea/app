@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'title.survey_create'|trans }}{% endblock %}
+{% block title %}{{ 'title.questions_edit'|trans }}{% endblock %}
 
 {% block body %}
     <div class="content">
-        <h1>{{ 'title.surveys_edit'|trans }}</h1>
-        {{ form_start(form, { method: 'post', action: url('surveys_edit', {'id': survey.id}) }) }}
+        <h1>{{ 'title.questions_edit'|trans }}</h1>
+        {{ form_start(form, { method: 'post', action: url('questions_edit', {'id': survey.id}) }) }}
         {{ form_widget(form) }}
         <br>
         <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
         {{ form_end(form) }}
         <br><br>
-        <a class="btn btn-outline-primary" href="{{ url('surveys_view', {'id': survey.id}) }}"
+        <a class="btn btn-outline-primary" href="{{ url('questions_view', {'id': survey.id}) }}"
            title="{{ 'label.back_to_survey' }}">
             {{ 'label.back_to_survey' }}
         </a>

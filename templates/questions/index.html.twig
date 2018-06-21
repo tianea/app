@@ -16,8 +16,17 @@
                 <br>
             {% endfor %}
         </ol>
-       {#<a href="{{ url('questions_add', {'id': questions.survey_id}) }}" title="{{ 'title.questions_add'|trans }}">
+       <a class="btn btn-info" href="{{ url('questions_add', {'id': survey.id}) }}" title="{{ 'title.questions_add'|trans }}">
             {{ 'title.questions_add'|trans }}
-        </a>#}
+        </a>
+        <a class="btn btn-info" href="{{ url('questions_edit', {'id': survey.id}) }}" title="{{ 'title.questions_edit'|trans }}">
+            {{ 'title.questions_edit'|trans }}
+        </a>
+        <br><br><br>
+        <a class="btn btn-outline-primary" href="{{ url('surveys_view', {'id': survey.id}) }}"
+           title="{{ 'label.back_to_survey' }}">
+            {{ 'label.back_to_survey' }}
+        </a>
+        <br><br><br>
     </div>
 {% endblock %}

@@ -3,9 +3,11 @@
 {% block title %}{{ 'title.survey_create'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.survey_create'|trans }}</h1>
-    {{ form_start(form, { method: 'post', action: url('survey_create') }) }}
-    {{ form_widget(form) }}
-    <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
-    {{ form_end(form) }}
+    <div class="content">
+        <h1>{{ 'title.survey_create'|trans }}</h1>
+        {{ form_start(form, { method: 'post', action: url('survey_create') }) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

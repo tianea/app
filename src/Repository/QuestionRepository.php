@@ -21,7 +21,7 @@ class QuestionRepository
      *
      * const int NUM_ITEMS
      */
-    const NUM_ITEMS = 20;
+    const NUM_ITEMS = 10;
 
     /**
      * Doctrine DBAL connection.

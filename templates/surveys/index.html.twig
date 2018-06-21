@@ -13,7 +13,7 @@
             <ul>
                 {% for row in paginator.data %}
                     <li>
-                        <a href="{{ url('surveys_view', {'id': row.id}) }}" title="{{ 'row.name' }}">
+                        <a href="{{ url('surveys_view', {'id': row.id}) }}" title="{{ row.name }}">
                             {{ row.name }}
                         </a>
                         <br><br>

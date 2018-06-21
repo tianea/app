@@ -10,6 +10,7 @@ namespace Controllers;
 
 use Repository\QuestionRepository;
 use Repository\SurveyRepository;
+use Form\QuestionType;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,10 +31,14 @@ class QuestionController implements ControllerProviderInterface
         $controller->get('/{id}', [$this, 'indexAction'])
             ->assert('id', '[1-9]\d*')
             ->bind('questions_view');
-        $controller->match('/add/{id}', [$this, 'addAction'])
+        $controller->match('/{id}/add', [$this, 'addAction'])
             ->method('POST|GET')
             ->assert('id', '[1-9]\d*')
             ->bind('questions_add');
+        $controller->match('/{id}/edit', [$this, 'editAction'])
+            ->method('GET|POST')
+            ->assert('id', '[1-9]\d*')
+            ->bind('questions_edit');
 
         return $controller;
     }
@@ -79,6 +84,113 @@ class QuestionController implements ControllerProviderInterface
         return $app['twig']->render(
             'questions/view.html.twig',
             ['question' => $question]
+        );
+    }
+
+    /**
+     * Add action.
+     *
+     * @param \Silex\Application                        $app     Silex application
+     * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP Response
+     */
+    public function addAction(Application $app, Request $request, $id)
+    {
+        $questionRepository = new QuestionRepository($app['db']);
+
+        $surveyRepository = new SurveyRepository($app['db']);
+        $survey = $surveyRepository->findOneById($id);
+        $surveyId = $survey['id'];
+        dump($survey);
+        dump($surveyId);
+
+        $question = [];
+
+        $form = $app['form.factory']->createBuilder(QuestionType::class, $question)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $questionRepository = new QuestionRepository($app['db']);
+            $questionRepository->save($form->getData(), $surveyId);
+
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'success',
+                    'message' => 'message.element_successfully_added',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('questions_view'), 301);
+        }
+
+        return $app['twig']->render(
+            'questions/add.html.twig',
+            [
+                'question' => $question,
+                'survey' => $survey,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Edit action.
+     *
+     * @param Application $app
+     * @param Id          $id
+     * @param Request     $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editAction(Application $app, $id, Request $request)
+    {
+        $questionRepository = new QuestionRepository($app['db']);
+        $question = $questionRepository->findAllBySurveyId($id);
+        dump($question);
+
+        $surveyRepository = new SurveyRepository($app['db']);
+        $survey = $surveyRepository->findOneById($id);
+        $surveyId = $survey['id'];
+        dump($survey);
+
+        if (!$question) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.record_not_found',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('questions_add'));
+        }
+
+        $form = $app['form.factory']->createBuilder(QuestionType::class, $question)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $questionRepository->save($form->getData(), $surveyId);
+
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'success',
+                    'message' => 'message.element_successfully_edited',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('questions_add'), 301);
+        }
+
+        return $app['twig']->render(
+            'questions/edit.html.twig',
+            [
+                'question' => $question,
+                'survey' => $survey,
+                'form' => $form->createView(),
+            ]
         );
     }
 
