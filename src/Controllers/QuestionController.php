@@ -51,10 +51,6 @@ class QuestionController implements ControllerProviderInterface
         $controller->get('/{id}/start', [$this, 'indexAction'])
             ->assert('id', '[1-9]\d*')
             ->bind('survey_start');
-        $controller->get('/answer/{id}', [$this, 'answerAction'])
-            ->method('POST|GET')
-            ->assert('id', '[1-9]\d*')
-            ->bind('questions_answer');
 
         return $controller;
     }
@@ -268,67 +264,6 @@ class QuestionController implements ControllerProviderInterface
             'questions/delete.html.twig',
             [
                 'question' => $question,
-                'form' => $form->createView(),
-            ]
-        );
-    }
-
-    /**
-     * Answer action.
-     *
-     * @param Application $app
-     * @param Id          $id
-     * @param Request     $request
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function answerAction(Application $app, $id, Request $request)
-    {
-        $questionRepository = new QuestionRepository($app['db']);
-        //$question = $questionRepository->findAllBySurveyId($id);
-        $question = $questionRepository->findOneById($id);
-        dump($question);
-        $questionId = $question['id'];
-        dump($questionId);
-
-        $answerRepository = new AnswerRepository($app['db']);
-        $answer = [];
-
-        if (!$question) {
-            $app['session']->getFlashBag()->add(
-                'messages',
-                [
-                    'type' => 'warning',
-                    'message' => 'message.record_not_found',
-                ]
-            );
-
-            return $app->redirect($app['url_generator']->generate('surveys_index'));
-        }
-
-        $form = $app['form.factory']->createBuilder(AnswerType::class, $answer)->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $answerRepository->save($form->getData(), $questionId);
-
-            $app['session']->getFlashBag()->add(
-                'messages',
-                [
-                    'type' => 'success',
-                    'message' => 'message.element_successfully_added',
-                ]
-            );
-
-            return $app->redirect($app['url_generator']->generate('surveys_index'), 301);
-        }
-
-        return $app['twig']->render(
-            'questions/answer.html.twig',
-            [
-                'question' => $question,
-                'answer' => $answer,
-                'id' => $questionId,
                 'form' => $form->createView(),
             ]
         );

@@ -54,7 +54,6 @@ class UserController implements ControllerProviderInterface
     {
         $userRepository = new UserRepository($app['db']);
         $users = $userRepository->findAll();
-        dump($users);
 
         return $app['twig']->render(
             'users/index.html.twig',
@@ -77,9 +76,6 @@ class UserController implements ControllerProviderInterface
         $userRepository = new UserRepository($app['db']);
         $user = $userRepository->findOneById($id);
         $id = $user['id'];
-        dump($user);
-        dump($id);
-
         return $app['twig']->render(
             'users/view.html.twig',
             ['user' => $user]

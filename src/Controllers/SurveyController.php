@@ -151,7 +151,6 @@ class SurveyController implements ControllerProviderInterface
         $surveyRepository = new SurveyRepository($app['db']);
         $survey = $surveyRepository->findOneById($id);
         $surveyId = $survey['id'];
-        dump($survey);
 
         if (!$survey) {
             $app['session']->getFlashBag()->add(

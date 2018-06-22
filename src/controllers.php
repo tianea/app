@@ -11,6 +11,7 @@ use Controllers\AuthController;
 use Controllers\SurveyController;
 use Controllers\UserController;
 use Controllers\QuestionController;
+use Controllers\AnswerController;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
@@ -20,6 +21,7 @@ $app->mount('/auth', new AuthController());
 $app->mount('/surveys', new SurveyController());
 $app->mount('/user', new UserController());
 $app->mount('/questions', new QuestionController());
+$app->mount('/answer', new AnswerController());
 
 $app->get('/', function () use ($app) {
     return $app['twig']->render('view.html.twig', array());

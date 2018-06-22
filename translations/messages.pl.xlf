@@ -2,10 +2,6 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
-            <trans-unit id="title.bookmarks_list">
-                <source>title.bookmarks_list</source>
-                <target>Lista zakładek</target>
-            </trans-unit>
             <trans-unit id="auth.logout.label">
                 <source>auth.logout.label</source>
                 <target>Wyloguj</target>
@@ -198,10 +194,14 @@
                 <source>label.user_profile</source>
                 <target>Profil użytkownika</target>
             </trans-unit>
-
-
-
-
+            <trans-unit id="label.answers">
+                <source>label.answers</source>
+                <target>Zobacz odpowiedzi użytkowników</target>
+            </trans-unit>
+            <trans-unit id="label.answers_view">
+                <source>label.answers_view</source>
+                <target>Odpowiedzi na pytanie</target>
+            </trans-unit>
 
         </body>
     </file>
