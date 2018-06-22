@@ -150,6 +150,7 @@ class SurveyController implements ControllerProviderInterface
 
         $surveyRepository = new SurveyRepository($app['db']);
         $survey = $surveyRepository->findOneById($id);
+        $surveyId = $survey['id'];
         dump($survey);
 
         if (!$survey) {
@@ -178,7 +179,7 @@ class SurveyController implements ControllerProviderInterface
                 ]
             );
 
-            return $app->redirect($app['url_generator']->generate('surveys_index'), 301);
+            return $app->redirect($app['url_generator']->generate('surveys_view', ['id' => $surveyId]), 301);
         }
 
         return $app['twig']->render(

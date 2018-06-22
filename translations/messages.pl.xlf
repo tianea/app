@@ -6,6 +6,200 @@
                 <source>title.bookmarks_list</source>
                 <target>Lista zakładek</target>
             </trans-unit>
+            <trans-unit id="auth.logout.label">
+                <source>auth.logout.label</source>
+                <target>Wyloguj</target>
+            </trans-unit>
+            <trans-unit id="auth.login.label">
+                <source>auth.login.label</source>
+                <target>Logowanie</target>
+            </trans-unit>
+            <trans-unit id="label.surveys_index">
+                <source>label.surveys_index</source>
+                <target>Lista dostępnych ankiet</target>
+            </trans-unit>
+            <trans-unit id="label.sign_up">
+                <source>label.sign_up</source>
+                <target>Rejestracja</target>
+            </trans-unit>
+            <trans-unit id="labels.nav.prev">
+                <source>labels.nav.prev</source>
+                <target>Poprzednia strona</target>
+            </trans-unit>
+            <trans-unit id="label.nav.next">
+                <source>label.nav.next</source>
+                <target>Następna strona</target>
+            </trans-unit>
+            <trans-unit id="title.auth_login">
+                <source>title.auth_login</source>
+                <target>Logowanie</target>
+            </trans-unit>
+            <trans-unit id="label.login">
+                <source>label.login</source>
+                <target>Login*</target>
+            </trans-unit>
+            <trans-unit id="label.password">
+                <source>label.password</source>
+                <target>Hasło*</target>
+            </trans-unit>
+            <trans-unit id="action.login">
+                <source>action.login</source>
+                <target>Zaloguj</target>
+            </trans-unit>
+            <trans-unit id="title.sign_up">
+                <source>title.sign_up</source>
+                <target>Rejestracja</target>
+            </trans-unit>
+            <trans-unit id="label.user_name">
+                <source>label.user_name</source>
+                <target>Imię</target>
+            </trans-unit>
+            <trans-unit id="label.user_age">
+                <source>label.user_age</source>
+                <target>Wiek</target>
+            </trans-unit>
+            <trans-unit id="label.user_gender">
+                <source>label.user_gender</source>
+                <target>Płeć</target>
+            </trans-unit>
+            <trans-unit id="label.user_email">
+                <source>label.user_email</source>
+                <target>Adres email</target>
+            </trans-unit>
+            <trans-unit id="label.user_description">
+                <source>label.user_description</source>
+                <target>Opis</target>
+            </trans-unit>
+            <trans-unit id="action.sign_up">
+                <source>action.sign_up</source>
+                <target>Zarejestruj</target>
+            </trans-unit>
+            <trans-unit id="survey.create.label">
+                <source>survey.create.label</source>
+                <target>Stwórz ankietę</target>
+            </trans-unit>
+            <trans-unit id="label.my_profile">
+                <source>label.my_profile</source>
+                <target>Mój profil</target>
+            </trans-unit>
+            <trans-unit id="label.user_index">
+                <source>label.user_index</source>
+                <target>Lista użytkowników</target>
+            </trans-unit>
+            <trans-unit id="label.surveys_delete">
+                <source>label.surveys_delete</source>
+                <target>Usuń ankietę</target>
+            </trans-unit>
+            <trans-unit id="label.questions_view">
+                <source>label.questions_view</source>
+                <target>Lista pytań</target>
+            </trans-unit>
+            <trans-unit id="label.surveys_edit">
+                <source>label.surveys_edit</source>
+                <target>Edycja ankiety</target>
+            </trans-unit>
+            <trans-unit id="label.back_to_list">
+                <source>label.back_to_list</source>
+                <target>Powrót do menu</target>
+            </trans-unit>
+            <trans-unit id="label.questions_index_view">
+                <source>label.questions_index_view</source>
+                <target>Pytania ankiety:</target>
+            </trans-unit>
+            <trans-unit id="title.questions_answer">
+                <source>title.questions_answer</source>
+                <target>Odpowiedz</target>
+            </trans-unit>
+            <trans-unit id="title.questions_edit">
+                <source>title.questions_edit</source>
+                <target>Edytuj</target>
+            </trans-unit>
+            <trans-unit id="label.questions_delete">
+                <source>label.questions_delete</source>
+                <target>Usuń</target>
+            </trans-unit>
+            <trans-unit id="title.questions_add">
+                <source>title.questions_add</source>
+                <target>Dodaj pytanie</target>
+            </trans-unit>
+            <trans-unit id="label.back_to_survey">
+                <source>label.back_to_survey</source>
+                <target>Powrót do ankiety</target>
+            </trans-unit>
+            <trans-unit id="label.answer">
+                <source>label.answer</source>
+                <target>Odpowiedź:</target>
+            </trans-unit>
+            <trans-unit id="action.save">
+                <source>action.save</source>
+                <target>Zapisz</target>
+            </trans-unit>
+            <trans-unit id="message.element_successfully_added">
+                <source>message.element_successfully_added</source>
+                <target>Dodano pomyślnie!</target>
+            </trans-unit>
+            <trans-unit id="label.back_to_questions">
+                <source>label.back_to_questions</source>
+                <target>Powrót do listy pytań</target>
+            </trans-unit>
+            <trans-unit id="label.content">
+                <source>label.content</source>
+                <target>Treść: </target>
+            </trans-unit>
+            <trans-unit id="message.element_successfully_edited">
+                <source>message.element_successfully_edited</source>
+                <target>Edytowano pomyślnie!</target>
+            </trans-unit>
+            <trans-unit id="title.surveys_delete">
+                <source>title.surveys_delete</source>
+                <target>Usuwanie pytania</target>
+            </trans-unit>
+            <trans-unit id="delete_warning">
+                <source>delete_warning</source>
+                <target>Czy na pewno chcesz usunąć pytanie</target>
+            </trans-unit>
+            <trans-unit id="action.delete">
+                <source>action.delete</source>
+                <target>Usuń</target>
+            </trans-unit>
+            <trans-unit id="message.element_successfully_deleted">
+                <source>message.element_successfully_deleted</source>
+                <target>Usunięto pomyślnie!</target>
+            </trans-unit>
+            <trans-unit id="title.survey_create">
+                <source>title.survey_create</source>
+                <target>Tworzenie ankiety</target>
+            </trans-unit>
+            <trans-unit id="label.name">
+                <source>label.name</source>
+                <target>Nazwa </target>
+            </trans-unit>
+            <trans-unit id="label.description">
+                <source>label.description</source>
+                <target>Opis </target>
+            </trans-unit>
+            <trans-unit id="label.back_to_mainpage">
+                <source>label.back_to_mainpage</source>
+                <target>Powrót do strony głównej</target>
+            </trans-unit>
+            <trans-unit id="title.surveys_edit">
+                <source>title.surveys_edit</source>
+                <target>Edycja ankiety</target>
+            </trans-unit>
+            <trans-unit id="message.record_not_found">
+                <source>message.record_not_found</source>
+                <target>Nie znaleziono</target>
+            </trans-unit>
+            <trans-unit id="title.question_add">
+                <source>title.question_add</source>
+                <target>Dodaj pytanie</target>
+            </trans-unit>
+            <trans-unit id="label.user_profile">
+                <source>label.user_profile</source>
+                <target>Profil użytkownika</target>
+            </trans-unit>
+
+
 
 
 

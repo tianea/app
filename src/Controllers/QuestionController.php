@@ -227,6 +227,7 @@ class QuestionController implements ControllerProviderInterface
     {
         $questionRepository = new QuestionRepository($app['db']);
         $question = $questionRepository->findOneById($id);
+        $surveyId = $question['survey_id'];
 
         dump($question);
 
@@ -258,7 +259,7 @@ class QuestionController implements ControllerProviderInterface
             );
 
             return $app->redirect(
-                $app['url_generator']->generate('surveys_index'),
+                $app['url_generator']->generate('questions_view', ['id' => $surveyId]),
                 301
             );
         }
@@ -315,7 +316,7 @@ class QuestionController implements ControllerProviderInterface
                 'messages',
                 [
                     'type' => 'success',
-                    'message' => 'message.element_successfully_edited',
+                    'message' => 'message.element_successfully_added',
                 ]
             );
 

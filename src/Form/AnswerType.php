@@ -25,7 +25,7 @@ class AnswerType extends AbstractType
             'answer',
             TextType::class,
             [
-                'label' => 'label.content',
+                'label' => 'label.answer',
                 'required' => true,
                 'attr' => [
                     'max_length' => 300,

@@ -23,6 +23,11 @@ h1 {
     margin-left: 65vw;
 }
 
+.right .btn {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
 .center {
     position: absolute;
     margin-left: 45vw;
@@ -49,5 +54,5 @@ ul {
 }
 
 .next, .next_disabled{
-    margin-left: 50vw;
+    margin-left: 45vw;
 }

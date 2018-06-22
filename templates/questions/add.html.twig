@@ -12,8 +12,8 @@
         {{ form_end(form) }}
         <br><br>
         <a class="btn btn-outline-primary" href="{{ url('surveys_view', {'id': survey.id}) }}"
-           title="{{ 'label.back_to_survey' }}">
-            {{ 'label.back_to_survey' }}
+           title="{{ 'label.back_to_survey'|trans }}">
+            {{ 'label.back_to_survey'|trans }}
         </a>
     </div>
 {% endblock %}

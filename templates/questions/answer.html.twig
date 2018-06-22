@@ -5,7 +5,7 @@
 {% block body %}
     <div class="content">
         <h1>{{ 'title.questions_answer'|trans }}</h1>
-        {{ question.content }}
+        <h2>{{ question.content }}</h2>
         {{ form_start(form, { method: 'post', action: url('questions_answer', {'id': question.id}) }) }}
         {{ form_widget(form) }}
         <br>
@@ -13,8 +13,9 @@
         {{ form_end(form) }}
         <br><br>
         <a class="btn btn-outline-primary" href="{{ url('questions_view', {'id': question.survey_id}) }}"
-           title="{{ 'label.back_to_questions' }}">
-            {{ 'label.back_to_questions' }}
+           title="{{ 'label.back_to_questions'|trans }}">
+            {{ 'label.back_to_questions'|trans }}
         </a>
+        <br><br>
     </div>
 {% endblock %}
