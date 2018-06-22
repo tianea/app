@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.questions_answer'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h1>{{ 'title.questions_answer'|trans }}</h1>
+        {{ question.content }}
+        {{ form_start(form, { method: 'post', action: url('questions_answer', {'id': question.id}) }) }}
+        {{ form_widget(form) }}
+        <br>
+        <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
+        {{ form_end(form) }}
+        <br><br>
+        <a class="btn btn-outline-primary" href="{{ url('questions_view', {'id': question.survey_id}) }}"
+           title="{{ 'label.back_to_questions' }}">
+            {{ 'label.back_to_questions' }}
+        </a>
+    </div>
+{% endblock %}

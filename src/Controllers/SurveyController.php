@@ -41,9 +41,7 @@ class SurveyController implements ControllerProviderInterface
             ->method('GET|POST')
             ->assert('id', '[1-9]\d*')
             ->bind('surveys_delete');
-        $controller->get('/start/{id}', [$this, 'indexAction'])
-            ->assert('id', '[1-9]\d*')
-            ->bind('survey_start');
+
         return $controller;
     }
     /**

@@ -12,20 +12,37 @@
             {% for row in questions %}
                 <li>
                     {{ row.content }}
-                    <a class="btn btn-info btn-sm" href="{{ url('questions_edit', {'id': row.id}) }}"
-                       title="{{ 'title.questions_edit'|trans }}">
-                        {{ 'title.questions_edit'|trans }}
-                    </a>
-                    <a class="btn btn-danger btn-sm" href="{{ url('questions_delete', {'id': row.id}) }}"
-                       title="{{ 'label.questions_delete'|trans }}">{{ 'label.questions_delete'|trans }}</a>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-info btn-sm" href="{{ url('questions_answer', {'id': row.id}) }}"
+                           title="{{ 'title.questions_answer'|trans }}">
+                            {{ 'title.questions_answer'|trans }}
+                        </a>
+                    {% endif %}
+                    {% if userId is same as(survey.user_id) or is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-warning btn-sm" href="{{ url('questions_edit', {'id': row.id}) }}"
+                           title="{{ 'title.questions_edit'|trans }}">
+                            {{ 'title.questions_edit'|trans }}
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{{ url('questions_delete', {'id': row.id}) }}"
+                           title="{{ 'label.questions_delete'|trans }}">{{ 'label.questions_delete'|trans }}</a>
+                        {% else %}
+                            <a class="btn btn-info btn-sm" href="{{ url('questions_answer', {'id': row.id}) }}"
+                               title="{{ 'title.questions_answer'|trans }}">
+                                {{ 'title.questions_answer'|trans }}
+                            </a>
+                    {% endif %}
                 </li>
                 <br>
             {% endfor %}
         </ol>
-       <a class="btn btn-info" href="{{ url('questions_add', {'id': survey.id}) }}"
-          title="{{ 'title.questions_add'|trans }}">
-            {{ 'title.questions_add'|trans }}
-        </a>
+        {% if userId is same as(survey.user_id) or is_granted('ROLE_ADMIN') %}
+           <a class="btn btn-info" href="{{ url('questions_add', {'id': survey.id}) }}"
+              title="{{ 'title.questions_add'|trans }}">
+                {{ 'title.questions_add'|trans }}
+           </a>
+
+        {% endif %}
 
         <br><br><br>
         <a class="btn btn-outline-primary" href="{{ url('surveys_view', {'id': survey.id}) }}"

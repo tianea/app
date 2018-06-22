@@ -137,19 +137,6 @@ class QuestionRepository
         return !$result ? [] : $result;
     }
 
-
-
-    public function findLinkedBySurveyId($surveyId){
-        $queryBuilder = $this->db->createQueryBuilder()
-            ->select('s.id')
-            ->from('survey', 's')
-            ->where('s.id = :survey_id')
-            ->setParameter(':survey_id', $surveyId, \PDO::PARAM_INT);
-        $result = $queryBuilder->execute()->fetchAll();
-
-        return isset($result) ? array_column($result, 'content') : [];
-    }
-
     /**
      * Query all records.
      *
