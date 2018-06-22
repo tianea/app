@@ -7,6 +7,7 @@
         <h1>{{ 'title.question_add'|trans }}</h1>
         {{ form_start(form, { method: 'post', action: url('questions_add', { 'id': survey.id }) }) }}
         {{ form_widget(form) }}
+        <br>
         <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
         {{ form_end(form) }}
         <br><br>

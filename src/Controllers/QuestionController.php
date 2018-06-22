@@ -129,7 +129,7 @@ class QuestionController implements ControllerProviderInterface
                 ]
             );
 
-            return $app->redirect($app['url_generator']->generate('surveys_index'), 301);
+            return $app->redirect($app['url_generator']->generate('questions_view', ['id' => $surveyId]), 301);
         }
 
         return $app['twig']->render(
@@ -137,6 +137,7 @@ class QuestionController implements ControllerProviderInterface
             [
                 'question' => $question,
                 'survey' => $survey,
+                'id' => $surveyId,
                 'form' => $form->createView(),
             ]
         );
@@ -158,7 +159,6 @@ class QuestionController implements ControllerProviderInterface
         $question = $questionRepository->findOneById($id);
         dump($question);
         $surveyId = $question['survey_id'];
-        dump($surveyId);
 
         if (!$question) {
             $app['session']->getFlashBag()->add(
@@ -169,7 +169,7 @@ class QuestionController implements ControllerProviderInterface
                 ]
             );
 
-            return $app->redirect($app['url_generator']->generate('questions_add'));
+            return $app->redirect($app['url_generator']->generate('questions_view', ['id' => $surveyId]));
         }
 
         $form = $app['form.factory']->createBuilder(QuestionType::class, $question)->getForm();
@@ -186,13 +186,14 @@ class QuestionController implements ControllerProviderInterface
                 ]
             );
 
-            return $app->redirect($app['url_generator']->generate('questions_add'), 301);
+            return $app->redirect($app['url_generator']->generate('questions_view', ['id' => $surveyId]), 301);
         }
 
         return $app['twig']->render(
             'questions/edit.html.twig',
             [
                 'question' => $question,
+                'id' => $surveyId,
                 'form' => $form->createView(),
             ]
         );

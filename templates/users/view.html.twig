@@ -13,5 +13,8 @@
         <p><b>{{ 'label.user_age'|trans }}:</b> {{ user.age }}</p>
         <p><b>{{ 'label.user_email'|trans }}:</b> {{ user.email }}</p>
         <p><b>{{ 'label.user_description'|trans }}:</b> {{ user.description }}</p>
+        <br><br><br><br>
+        <a class="btn btn-outline-dark" href="{{ url('surveys_index') }}"
+           title="{{ 'label.back_to_mainpage'|trans }}">{{ 'label.back_to_mainpage'|trans }}</a>
     </div>
 {% endblock %}
