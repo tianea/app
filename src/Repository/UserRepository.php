@@ -34,7 +34,7 @@ class UserRepository
     protected $db;
 
     /**
-     * TagRepository constructor.
+     * UserRepository constructor.
      *
      * @param \Doctrine\DBAL\Connection $db
      */
@@ -163,7 +163,7 @@ class UserRepository
     public function findAllPaginated($page = 1)
     {
         $countQueryBuilder = $this->queryAll()
-            ->select('COUNT(DISTINCT us.id) AS total_results')
+            ->select('COUNT(DISTINCT u.id) AS total_results')
             ->setMaxResults(1);
 
         $paginator = new Paginator($this->queryAll(), $countQueryBuilder);

@@ -6,5 +6,15 @@
 {% endblock %}
 
 {% block body %}
-
+    <div class="content">
+        <ul>
+            {% for row in users %}
+                <li>
+                    <a href="{{ url('user_account', {'id': row.id}) }}" title="{{ row.login }}">
+                        {{ row.login }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

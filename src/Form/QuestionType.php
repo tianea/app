@@ -42,7 +42,7 @@ class QuestionType extends AbstractType
                             'max' => 450,
                         ]
                     ),
-                ]
+                ],
             ]
         );
     }

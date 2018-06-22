@@ -6,7 +6,7 @@
 
 {% block body %}
     <div class="content">
-        {% if userId is same as(survey.user_id) %}
+        {% if userId is same as(survey.user_id) or is_granted('ROLE_ADMIN') %}
             <a class="btn btn-danger btn-sm" href="{{ url('surveys_delete', {'id': survey.id}) }}"
                title="{{ 'label.surveys_delete'|trans }}">{{ 'label.surveys_delete'|trans }}</a>
         {% endif %}
@@ -20,7 +20,7 @@
             {{ survey.description }}
         </p>
         <br><br>
-        {% if userId is same as(survey.user_id)  %}
+        {% if userId is same as(survey.user_id) or is_granted('ROLE_ADMIN') %}
             <a class="btn btn-info" href="{{ url('questions_view', {'id': survey.id}) }}"
                title="{{ 'label.questions_view'|trans }}">{{ 'label.questions_view'|trans }}</a>
             <a class="btn btn-secondary" href="{{ url('surveys_edit', {'id': survey.id}) }}"

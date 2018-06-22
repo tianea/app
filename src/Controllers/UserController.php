@@ -29,7 +29,7 @@ class UserController implements ControllerProviderInterface
     {
         $controller = $app['controllers_factory'];
         $controller->get('/index', [$this, 'indexAction'])->bind('user_index');
-        $controller->get('/{id}', [$this, 'indexAction'])
+        $controller->get('/{id}', [$this, 'accountAction'])
             ->assert('id', '[1-9]\d*')
             ->bind('user_account');
         $controller->get('/index/{page}', [$this, 'indexAction'])
@@ -50,8 +50,29 @@ class UserController implements ControllerProviderInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
+    public function indexAction(Application $app, $page = 1)
+    {
+        $userRepository = new UserRepository($app['db']);
+        $users = $userRepository->findAll();
+        dump($users);
 
-    public function indexAction(Application $app, $id, $page = 1)
+        return $app['twig']->render(
+            'users/index.html.twig',
+            [
+                'users' => $users,
+                ]
+        );
+    }
+
+    /**
+     * account action.
+     *
+     * @param \Silex\Application $app Silex application
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP Response
+     */
+
+    public function accountAction(Application $app, $id, $page = 1)
     {
         $userRepository = new UserRepository($app['db']);
         $user = $userRepository->findOneById($id);

@@ -31,12 +31,21 @@
                 <a class="btn btn-secondary" href="{{ url('auth_logout') }}" title="{{ 'auth.logout.label'|trans }}">
                     {{ 'auth.logout.label'|trans }}
                 </a>
-                <div class="right"><a class="btn btn-info" href="{{ url('survey_create') }}"
-                    title="{{ 'survey.create.label'|trans }}">{{ 'survey.create.label'|trans }}
-                </a>
-                <a class="btn btn-light" href="{{ url('my_profile') }}" title="{{ 'label.my_profile'|trans }}">
-                    {{ 'label.my_profile'|trans }}
-                </a></div>
+                <div class="userindex">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-secondary" href="{{ url('user_index') }}" title="{{ 'label.user_index'|trans }}">
+                            {{ 'label.user_index'|trans }}
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="right">
+                    <a class="btn btn-info" href="{{ url('survey_create') }}"
+                       title="{{ 'survey.create.label'|trans }}">{{ 'survey.create.label'|trans }}
+                    </a>
+                    <a class="btn btn-light" href="{{ url('my_profile') }}" title="{{ 'label.my_profile'|trans }}">
+                        {{ 'label.my_profile'|trans }}
+                    </a>
+                </div>
             {% else %}
                 <a class="btn btn-info" href="{{ url('auth_login') }}" title="{{ 'auth.login.label'|trans }}">
                     {{ 'auth.login.label'|trans }}
@@ -45,6 +54,7 @@
                 {{ 'label.sign_up'|trans }}
                 </a>
             {% endif %}
+
         </div>
     </div>
 </nav>

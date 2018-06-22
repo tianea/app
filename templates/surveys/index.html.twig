@@ -13,17 +13,15 @@
             <ul>
                 {% for row in paginator.data %}
                     <li>
-                        <a href="{{ url('surveys_view', {'id': row.id}) }}" title="{{ row.name }}">
-                            {{ row.name }}
-                        </a>
-                        <br>
-                        {#<a href="{{ url('tags_edit', {'id': row.id}) }}" title="{{ 'title.tags_edit'|trans({'%id%': row.id}) }}">
-                            {{ 'title.tags_edit'|trans({'%id%': row.id}) }}
-                        </a>
-                        <br>
-                        <a href="{{ url('tags_delete',{'id': row.id}) }}" title="{{ 'title.tags_delete'|trans({'%id%': row.id}) }}">
-                            {{ 'title.tags_delete'|trans({'%id%': row.id}) }}
-                        </a>#}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a href="{{ url('surveys_view', {'id': row.id}) }}" title="{{ row.name }}">
+                                {{ row.name }}
+                            </a>
+                            {% else %}
+                                <a>
+                                    {{ row.name }}
+                                </a>
+                        {% endif %}
                     </li>
                     <br>
                 {% endfor %}

@@ -14,8 +14,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class UserType.
+ **/
 class UserType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
@@ -60,5 +66,73 @@ class UserType extends AbstractType
                 ],
             ]
         );
+
+        $builder->add(
+            'name',
+            TextType::class,
+            [
+                'label' => 'label.user_name',
+                'required' => false,
+                'attr' => [
+                    'max_length' => 30,
+                ],
+            ]
+        );
+
+        $builder->add(
+            'age',
+            TextType::class,
+            [
+                'label' => 'label.user_age',
+                'required' => false,
+                'attr' => [
+                    'max_length' => 3,
+                ],
+            ]
+        );
+
+        $builder->add(
+            'gender',
+            TextType::class,
+            [
+                'label' => 'label.user_gender',
+                'required' => false,
+                'attr' => [
+                    'max_length' => 1,
+                ],
+            ]
+        );
+
+        $builder->add(
+            'email',
+            TextType::class,
+            [
+                'label' => 'label.user_email',
+                'required' => false,
+                'attr' => [
+                    'max_length' => 35,
+                ],
+            ]
+        );
+
+        $builder->add(
+            'description',
+            TextType::class,
+            [
+                'label' => 'label.user_description',
+                'required' => false,
+                'attr' => [
+                    'max_length' => 300,
+                ],
+            ]
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'user_type';
     }
 }

@@ -48,7 +48,7 @@ class SurveyType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'max_length' => 1500,
-                ]
+                ],
             ]
         );
     }
