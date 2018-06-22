@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.questions_delete'|trans({'%id%': question.id}) }}{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h1>{{ 'title.surveys_delete'|trans({'%id%': question.id})}} {{ question.content }}</h1>
+        <p>{{ 'delete_warning'|trans }} "{{ question.content }}"?</p>
+        {{ form_start(form, { method: 'post', action: url('questions_delete', {'id': question.id}) }) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="{{ 'action.delete'|trans }}" class="btn btn-danger" />
+        {{ form_end(form) }}
+        <br><br>
+        <a class="btn btn-primary" href="{{ url('surveys_index') }}"
+           title="{{ 'label.back_to_list'|trans }}" class="btn btn-default">
+            <span class="fa fa-mail-reply" aria-hidden="true"></span>
+            {{ 'label.back_to_list'|trans }}
+        </a>
+    </div>
+{% endblock %}

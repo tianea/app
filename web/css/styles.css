@@ -31,3 +31,17 @@ h1 {
     padding: 6px;
     border-radius: 0 20px 0 20px;
 }
+
+ul {
+    list-style-type: circle;
+    font-size: 20px;
+}
+
+.pager, .pager li{
+    list-style-type: none;
+    display: inline;
+}
+
+.next, .next_disabled{
+    margin-left: 50vw;
+}

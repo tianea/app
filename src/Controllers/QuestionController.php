@@ -14,6 +14,8 @@ use Form\QuestionType;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Class QuestionController
@@ -39,6 +41,10 @@ class QuestionController implements ControllerProviderInterface
             ->method('GET|POST')
             ->assert('id', '[1-9]\d*')
             ->bind('questions_edit');
+        $controller->match('/{id}/delete', [$this, 'deleteAction'])
+            ->method('GET|POST')
+            ->assert('id', '[1-9]\d*')
+            ->bind('questions_delete');
 
         return $controller;
     }
@@ -53,6 +59,7 @@ class QuestionController implements ControllerProviderInterface
     {
         $questionRepository = new QuestionRepository($app['db']);
         $questions = $questionRepository->findAllBySurveyId($id);
+        dump($questions);
 
         $surveyRepository = new SurveyRepository($app['db']);
         $survey = $surveyRepository->findOneById($id);
@@ -122,7 +129,7 @@ class QuestionController implements ControllerProviderInterface
                 ]
             );
 
-            return $app->redirect($app['url_generator']->generate('questions_view'), 301);
+            return $app->redirect($app['url_generator']->generate('surveys_index'), 301);
         }
 
         return $app['twig']->render(
@@ -147,13 +154,11 @@ class QuestionController implements ControllerProviderInterface
     public function editAction(Application $app, $id, Request $request)
     {
         $questionRepository = new QuestionRepository($app['db']);
-        $question = $questionRepository->findAllBySurveyId($id);
+        //$question = $questionRepository->findAllBySurveyId($id);
+        $question = $questionRepository->findOneById($id);
         dump($question);
-
-        $surveyRepository = new SurveyRepository($app['db']);
-        $survey = $surveyRepository->findOneById($id);
-        $surveyId = $survey['id'];
-        dump($survey);
+        $surveyId = $question['survey_id'];
+        dump($surveyId);
 
         if (!$question) {
             $app['session']->getFlashBag()->add(
@@ -188,7 +193,64 @@ class QuestionController implements ControllerProviderInterface
             'questions/edit.html.twig',
             [
                 'question' => $question,
-                'survey' => $survey,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Delete action.
+     *
+     * @param \Silex\Application                        $app     Silex application
+     * @param int                                       $id      Record id
+     * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP Response
+     */
+    public function deleteAction(Application $app, $id, Request $request)
+    {
+        $questionRepository = new QuestionRepository($app['db']);
+        $question = $questionRepository->findOneById($id);
+
+        dump($question);
+
+        if (!$question) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.record_not_found',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
+        $form = $app['form.factory']->createBuilder(FormType::class, $question)
+            ->add('id', HiddenType::class)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $questionRepository->delete($form->getData());
+
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'success',
+                    'message' => 'message.element_successfully_deleted',
+                ]
+            );
+
+            return $app->redirect(
+                $app['url_generator']->generate('surveys_index'),
+                301
+            );
+        }
+
+        return $app['twig']->render(
+            'questions/delete.html.twig',
+            [
+                'question' => $question,
                 'form' => $form->createView(),
             ]
         );

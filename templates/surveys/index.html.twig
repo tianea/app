@@ -16,7 +16,7 @@
                         <a href="{{ url('surveys_view', {'id': row.id}) }}" title="{{ row.name }}">
                             {{ row.name }}
                         </a>
-                        <br><br>
+                        <br>
                         {#<a href="{{ url('tags_edit', {'id': row.id}) }}" title="{{ 'title.tags_edit'|trans({'%id%': row.id}) }}">
                             {{ 'title.tags_edit'|trans({'%id%': row.id}) }}
                         </a>
@@ -33,7 +33,7 @@
                 There are no surveys!
             </div>
         {% endif %}
-
+        <br><br>
         {# ... #}
         {% include 'default/_paginator.html.twig' with {
         paginator: paginator,

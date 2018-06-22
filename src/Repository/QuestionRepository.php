@@ -40,6 +40,16 @@ class QuestionRepository
     }
 
     /**
+     * @param array $survey Survey
+     *
+     * @return int
+     */
+    public function delete($question)
+    {
+        return $this->db->delete('open_question', ['id' => $question['id']]);
+    }
+
+    /**
      * @return mixed
      */
     public function findAll()
@@ -99,6 +109,9 @@ class QuestionRepository
             // update record
             $id = $openQuestion['id'];
             unset($openQuestion['id']);
+            unset($openQuestion['name']);
+            unset($openQuestion['description']);
+            unset($openQuestion['user_id']);
 
             $this->db->update('open_question', $openQuestion, ['id' => $id]);
         } else {
@@ -116,14 +129,6 @@ class QuestionRepository
      */
     public function findAllBySurveyId($id)
     {
-        /*$queryBuilder = $this->queryAll();
-
-        $queryBuilder->select('op.id', 'op.content', 'op.survey_id')
-            ->from('open_question', 'op')
-            ->where('op.survey_id = s.id');
-
-        return $queryBuilder->execute();*/
-
         $queryBuilder = $this->queryAll();
         $queryBuilder->where('o.survey_id = :id')
             ->setParameter(':id', $id, \PDO::PARAM_INT);
@@ -131,6 +136,8 @@ class QuestionRepository
 
         return !$result ? [] : $result;
     }
+
+
 
     public function findLinkedBySurveyId($surveyId){
         $queryBuilder = $this->db->createQueryBuilder()
@@ -153,7 +160,7 @@ class QuestionRepository
         $queryBuilder = $this->db->createQueryBuilder();
 
         return $queryBuilder
-            ->select('o.id', 'o.content', 'o.survey_id', 's.id', 's.name', 's.description', 's.user_id')
+            ->select('o.id', 'o.content', 'o.survey_id', 's.name', 's.description', 's.user_id')
             ->from('open_question', 'o')
             ->innerJoin('o', 'survey', 's', 'o.survey_id=s.id');
     }
