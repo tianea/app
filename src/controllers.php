@@ -5,8 +5,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Controllers\BookmarkController;
-use Controllers\TagsController;
 use Controllers\AuthController;
 use Controllers\SurveyController;
 use Controllers\UserController;
@@ -15,8 +13,6 @@ use Controllers\AnswerController;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
-$app->mount('/bookmarks', new BookmarkController());
-$app->mount('/tags', new TagsController());
 $app->mount('/auth', new AuthController());
 $app->mount('/surveys', new SurveyController());
 $app->mount('/user', new UserController());
@@ -24,9 +20,9 @@ $app->mount('/questions', new QuestionController());
 $app->mount('/answer', new AnswerController());
 
 $app->get('/', function () use ($app) {
-    return $app['twig']->render('view.html.twig', array());
+    return $app['twig']->render('surveys/index.html.twig', array());
 })
-->bind('homepage')
+    ->bind('homepage')
 ;
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {

@@ -32,11 +32,11 @@
             </trans-unit>
             <trans-unit id="label.login">
                 <source>label.login</source>
-                <target>Login*</target>
+                <target>Login</target>
             </trans-unit>
             <trans-unit id="label.password">
                 <source>label.password</source>
-                <target>Password*</target>
+                <target>Password</target>
             </trans-unit>
             <trans-unit id="action.login">
                 <source>action.login</source>
@@ -80,7 +80,7 @@
             </trans-unit>
             <trans-unit id="label.user_index">
                 <source>label.user_index</source>
-                <target>Users list</target>
+                <target>Users index</target>
             </trans-unit>
             <trans-unit id="label.surveys_delete">
                 <source>label.surveys_delete</source>
@@ -201,6 +201,46 @@
             <trans-unit id="label.answers_view">
                 <source>label.answers_view</source>
                 <target>Answer to the question</target>
+            </trans-unit>
+            <trans-unit id="label.users_index">
+                <source>label.users_index</source>
+                <target>Users index</target>
+            </trans-unit>
+            <trans-unit id="label.survey_start">
+                <source>label.survey_start</source>
+                <target>Start survey</target>
+            </trans-unit>
+            <trans-unit id="title.surveys_deleting">
+                <source>title.surveys_deleting</source>
+                <target>Deleting survey</target>
+            </trans-unit>
+            <trans-unit id="survey_delete_warning">
+                <source>survey_delete_warning</source>
+                <target>Do you really want to delete survey</target>
+            </trans-unit>
+            <trans-unit id="message.successfully_registered">
+                <source>message.successfully_registered</source>
+                <target>Successfully registered!</target>
+            </trans-unit>
+            <trans-unit id="label.actions">
+                <source>label.actions</source>
+                <target>Action</target>
+            </trans-unit>
+            <trans-unit id="message.access_denied">
+                <source>message.access_denied</source>
+                <target>Access denied</target>
+            </trans-unit>
+            <trans-unit id="label.female">
+                <source>label.female</source>
+                <target>Female</target>
+            </trans-unit>
+            <trans-unit id="label.male">
+                <source>label.male</source>
+                <target>Male</target>
+            </trans-unit>
+            <trans-unit id="label.repeat_password">
+                <source>label.repeat_password</source>
+                <target>Repeat password</target>
             </trans-unit>
 
 

@@ -25,15 +25,15 @@
         <div class="btn-group" role="group" aria-label="{{ 'label.actions'|trans }}">
             <div class="center">
                 <a class="btn btn-info btn-lg" href="{{ url('surveys_index') }}"
-                    title="Survey"> Survey
-            </a></div>
+                   title="Survey"> Survey
+                </a></div>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <a class="btn btn-secondary" href="{{ url('auth_logout') }}" title="{{ 'auth.logout.label'|trans }}">
                     {{ 'auth.logout.label'|trans }}
                 </a>
                 <div class="userindex">
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a class="btn btn-secondary" href="{{ url('user_index') }}" title="{{ 'label.user_index'|trans }}">
+                        <a class="btn btn-secondary btn-sm" href="{{ url('user_index') }}" title="{{ 'label.user_index'|trans }}">
                             {{ 'label.user_index'|trans }}
                         </a>
                     {% endif %}
@@ -51,7 +51,7 @@
                     {{ 'auth.login.label'|trans }}
                 </a>
                 <a class="btn btn-light" href="{{ url('sign_up') }}" title="{{ 'label.sign_up'|trans }}">
-                {{ 'label.sign_up'|trans }}
+                    {{ 'label.sign_up'|trans }}
                 </a>
             {% endif %}
 

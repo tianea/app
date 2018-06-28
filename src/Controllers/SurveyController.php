@@ -18,7 +18,11 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 class SurveyController implements ControllerProviderInterface
 {
     /**
-     * {@inheritdoc}
+     * Connect function.
+     *
+     * @param Application $app
+     *
+     * @return mixed
      */
     public function connect(Application $app)
     {
@@ -44,10 +48,12 @@ class SurveyController implements ControllerProviderInterface
 
         return $controller;
     }
+
     /**
      * Index action.
      *
-     * @param \Silex\Application $app Silex application
+     * @param \Silex\Application $app  Silex application
+     * @param int                $page
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
@@ -152,6 +158,21 @@ class SurveyController implements ControllerProviderInterface
         $survey = $surveyRepository->findOneById($id);
         $surveyId = $survey['id'];
 
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+        $authorId = $survey['user_id'];
+
+        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
         if (!$survey) {
             $app['session']->getFlashBag()->add(
                 'messages',
@@ -201,8 +222,27 @@ class SurveyController implements ControllerProviderInterface
      */
     public function deleteAction(Application $app, $id, Request $request)
     {
+        $userRepository = new UserRepository($app['db']);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
+        $userId = $userRepository->findUserIdByLogin($userLogin);
+
         $surveyRepository = new SurveyRepository($app['db']);
         $survey = $surveyRepository->findOneById($id);
+
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+        $authorId = $survey['user_id'];
+
+        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
 
         if (!$survey) {
             $app['session']->getFlashBag()->add(

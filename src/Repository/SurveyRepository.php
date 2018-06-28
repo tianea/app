@@ -103,7 +103,7 @@ class SurveyRepository
     }
 
     /**
-     * Save record.
+     * Save function.
      *
      * @param array $survey Survey
      *
@@ -129,6 +129,8 @@ class SurveyRepository
     }
 
     /**
+     * Survey deleting.
+     *
      * @param array $survey Survey
      *
      * @return int

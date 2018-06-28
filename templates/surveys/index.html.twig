@@ -17,10 +17,10 @@
                             <a href="{{ url('surveys_view', {'id': row.id}) }}" title="{{ row.name }}">
                                 {{ row.name }}
                             </a>
-                            {% else %}
-                                <a>
-                                    {{ row.name }}
-                                </a>
+                        {% else %}
+                            <a>
+                                {{ row.name }}
+                            </a>
                         {% endif %}
                     </li>
                     <br>
@@ -28,18 +28,15 @@
             </ul>
         {% else %}
             <div>
-                There are no surveys!
+                Brak ankiet :(
             </div>
+            <br><br>
         {% endif %}
-        <br><br>
         {# ... #}
         {% include 'default/_paginator.html.twig' with {
         paginator: paginator,
         route_name: 'surveys_index_paginated',
         } %}
-        {# ...
-        <a href="{{ url('tags_add') }}" title="{{ 'title.tags_add'|trans }}">
-            {{ 'title.tags_add'|trans }}
-        </a>#}
+        <br><br>
     </div>
 {% endblock %}

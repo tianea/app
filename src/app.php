@@ -57,6 +57,25 @@ $app->register(
     ]
 );
 
+/*
+ * $app->register(
+    new DoctrineServiceProvider(),
+    [
+        'db.options' => [
+            'driver'    => 'pdo_mysql',
+            'host'      => 'localhost',
+            'dbname'    => '15_kwiecien',
+            'user'      => '15_kwiecien',
+            'password'  => 'S8h8d6e6a2',
+            'charset'   => 'utf8',
+            'driverOptions' => [
+                1002 => 'SET NAMES utf8',
+            ],
+        ],
+    ]
+);
+*/
+
 $app->register(
     new SecurityServiceProvider(),
     [
@@ -98,7 +117,5 @@ $app->register(
 $app->register(new FormServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new SessionServiceProvider());
-
-//dump($app['security.encoder.bcrypt']->encodePassword('abc123', ''));
 
 return $app;

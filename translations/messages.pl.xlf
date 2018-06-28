@@ -32,11 +32,11 @@
             </trans-unit>
             <trans-unit id="label.login">
                 <source>label.login</source>
-                <target>Login*</target>
+                <target>Login</target>
             </trans-unit>
             <trans-unit id="label.password">
                 <source>label.password</source>
-                <target>Hasło*</target>
+                <target>Hasło</target>
             </trans-unit>
             <trans-unit id="action.login">
                 <source>action.login</source>
@@ -202,6 +202,47 @@
                 <source>label.answers_view</source>
                 <target>Odpowiedzi na pytanie</target>
             </trans-unit>
+            <trans-unit id="label.users_index">
+                <source>label.users_index</source>
+                <target>Lista użytkowników</target>
+            </trans-unit>
+            <trans-unit id="label.survey_start">
+                <source>label.survey_start</source>
+                <target>Rozpocznij wypełnianie</target>
+            </trans-unit>
+            <trans-unit id="title.surveys_deleting">
+                <source>title.surveys_deleting</source>
+                <target>Usuwanie ankiety</target>
+            </trans-unit>
+            <trans-unit id="survey_delete_warning">
+                <source>survey_delete_warning</source>
+                <target>Czy na pewno chcesz usunąć ankietę</target>
+            </trans-unit>
+            <trans-unit id="message.successfully_registered">
+                <source>message.successfully_registered</source>
+                <target>Rejestracja zakończona powodzeniem!</target>
+            </trans-unit>
+            <trans-unit id="label.actions">
+                <source>label.actions</source>
+                <target>Akcja</target>
+            </trans-unit>
+            <trans-unit id="message.access_denied">
+                <source>message.access_denied</source>
+                <target>Brak uprawnień</target>
+            </trans-unit>
+            <trans-unit id="label.female">
+                <source>label.female</source>
+                <target>Kobieta</target>
+            </trans-unit>
+            <trans-unit id="label.male">
+                <source>label.male</source>
+                <target>Mężczyzna</target>
+            </trans-unit>
+            <trans-unit id="label.repeat_password">
+                <source>label.repeat_password</source>
+                <target>Powtórz hasło</target>
+            </trans-unit>
+
 
         </body>
     </file>

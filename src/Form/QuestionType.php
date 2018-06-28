@@ -20,6 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class QuestionType extends AbstractType
 {
     /**
+     * BuildForm function.
+     *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
@@ -48,6 +50,8 @@ class QuestionType extends AbstractType
     }
 
     /**
+     * GetBlockPrefix function.
+     *
      * @return string
      */
     public function getBlockPrefix()

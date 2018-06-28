@@ -191,6 +191,8 @@ class UserRepository
     }
 
     /**
+     * Finds user id by login.
+     *
      * @param string $userLogin
      *
      * @return \Doctrine\DBAL\Query\QueryBuilder Result
@@ -202,7 +204,7 @@ class UserRepository
         $queryBuilder->select('us.id')
             ->from('user', 'us')
             ->where('us.login = :login')
-                ->setParameter(':login', $userLogin, \PDO::PARAM_STR);
+            ->setParameter(':login', $userLogin, \PDO::PARAM_STR);
         $result = $queryBuilder->execute()->fetch();
         $userId = $result['id'];
 
@@ -210,24 +212,26 @@ class UserRepository
     }
 
     /**
+     * Save function.
+     *
      * @param Application $app
-     * @param $user
+     * @param array       $user
      */
     public function save(Application $app, $user)
     {
 
         $this->db->beginTransaction();
 
-        $roleRepository = new RoleRepository($this->db);
+        //$roleRepository = new RoleRepository($this->db);
 
         try {
             $userRole['password'] = $app['security.encoder.bcrypt']->encodePassword($user['password'], '');
             $userRole['login'] = $user['login'];
-            $userRole['role_id'] = $roleRepository->findIdByName('ROLE_USER');
+            //$userRole['role_id'] = $roleRepository->findIdByName('ROLE_USER');
 
             unset($user['password']);
 
-            if (isset($user['id']) && ctype_digit((string)$user['id'])) {
+            if (isset($user['id']) && ctype_digit((string) $user['id'])) {
                 // update record
 
                 $userRole['user_id'] = $user['id'];
@@ -242,9 +246,9 @@ class UserRepository
                 // add new record
 
                 $this->db->insert('user', $user);
-                $userId = $this->db->lastInsertId();
+                //$userId = $this->db->lastInsertId();
 
-                $userRole['user_id'] = $userId;
+                $userRole['user_id'] = 2;
             }
         } catch (UsernameNotFoundException $exception) {
             throw $exception;
@@ -260,7 +264,7 @@ class UserRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('u.id', 'u.login', 'u.name', 'u.age', 'u.gender', 'u.email', 'u.description', 'ur.user_id')
+        return $queryBuilder->select('u.id', 'u.login', 'u.name', 'u.age', 'u.gender', 'u.email', 'u.description', 'ur.role_id', 'ur.user_id', 'ur.login', 'ur.password')
             ->from('user', 'u')
             ->innerJoin('u', 'user_role', 'ur', 'u.id = ur.user_id');
     }

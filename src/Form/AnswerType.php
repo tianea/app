@@ -13,9 +13,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class AnswerType
+ */
 class AnswerType extends AbstractType
 {
     /**
+     * BuildForm function.
+     *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
@@ -44,6 +49,8 @@ class AnswerType extends AbstractType
     }
 
     /**
+     * GetBlockPrefix function.
+     *
      * @return string
      */
     public function getBlockPrefix()

@@ -16,11 +16,12 @@
 }
 
 h1 {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
+    margin-top: 40px;
 }
 
 .right {
-    margin-left: 65vw;
+    margin-left: 60vw;
 }
 
 .right .btn {
@@ -40,7 +41,7 @@ h1 {
 .userindex {
     position: absolute;
     margin-left: 80vw;
-    margin-top: 80px;
+    margin-top: 65px;
 }
 
 ul {
@@ -54,5 +55,10 @@ ul {
 }
 
 .next, .next_disabled{
-    margin-left: 45vw;
+    margin-left: 35vw;
+}
+
+.form-group label.control-label.required:after {
+    content: " *";
+    color: #a94442;;
 }

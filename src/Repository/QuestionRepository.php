@@ -40,7 +40,9 @@ class QuestionRepository
     }
 
     /**
-     * @param array $survey Survey
+     * Deleting question.
+     *
+     * @param array $question Question
      *
      * @return int
      */
@@ -50,6 +52,8 @@ class QuestionRepository
     }
 
     /**
+     * Finding all questions.
+     *
      * @return mixed
      */
     public function findAll()
@@ -97,8 +101,9 @@ class QuestionRepository
     }
 
     /**
-     * @param array $openQuestion OpenQuestion
+     * Saving the result.
      *
+     * @param array $openQuestion OpenQuestion
      * @param int   $surveyId     SurveyId
      *
      * @return int
@@ -124,6 +129,8 @@ class QuestionRepository
 
     /**
      * Find all questions by survey id.
+     *
+     * @param int $id
      *
      * @return mixed
      */

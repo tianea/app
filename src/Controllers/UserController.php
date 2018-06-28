@@ -9,7 +9,6 @@
 namespace Controllers;
 
 use Repository\UserRepository;
-use Repository\RoleRepository;
 use Form\UserType;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
@@ -23,7 +22,11 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController implements ControllerProviderInterface
 {
     /**
-     * {@inheritdoc}
+     * Connect function.
+     *
+     * @param Application $app
+     *
+     * @return mixed
      */
     public function connect(Application $app)
     {
@@ -50,7 +53,7 @@ class UserController implements ControllerProviderInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-    public function indexAction(Application $app, $page = 1)
+    public function indexAction(Application $app)
     {
         $userRepository = new UserRepository($app['db']);
         $users = $userRepository->findAll();
@@ -59,7 +62,7 @@ class UserController implements ControllerProviderInterface
             'users/index.html.twig',
             [
                 'users' => $users,
-                ]
+            ]
         );
     }
 
@@ -67,15 +70,15 @@ class UserController implements ControllerProviderInterface
      * account action.
      *
      * @param \Silex\Application $app Silex application
+     * @param int                $id
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
-
-    public function accountAction(Application $app, $id, $page = 1)
+    public function accountAction(Application $app, $id)
     {
         $userRepository = new UserRepository($app['db']);
         $user = $userRepository->findOneById($id);
-        $id = $user['id'];
+
         return $app['twig']->render(
             'users/view.html.twig',
             ['user' => $user]
@@ -86,7 +89,6 @@ class UserController implements ControllerProviderInterface
      * View action.
      *
      * @param \Silex\Application $app Silex application
-     * @param string             $id  Element Id
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
@@ -122,7 +124,8 @@ class UserController implements ControllerProviderInterface
 
         $form = $app['form.factory']->createBuilder(
             UserType::class,
-            $user
+            $user,
+            ['user_repository' => new UserRepository($app['db']), ]
         )->getForm();
         $form->handleRequest($request);
 

@@ -11,8 +11,11 @@ namespace Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class UserType.
@@ -20,7 +23,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * BuildForm function.
+     *
+     * @param FormBuilderInterface $builder
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -35,9 +41,14 @@ class UserType extends AbstractType
 
                 ],
                 'constraints' => [
-                    new Assert\NotBlank(),
+                    new Assert\NotBlank(
+                        [
+                            'groups' => ['user-default'],
+                        ]
+                    ),
                     new Assert\Length(
                         [
+                            'groups' => ['user-default'],
                             'min' => 5,
                             'max' => 16,
                         ]
@@ -45,27 +56,32 @@ class UserType extends AbstractType
                 ],
             ]
         );
-        $builder->add(
-            'password',
-            PasswordType::class,
-            [
-                'label' => 'label.password',
-                'required' => true,
-                'attr' => [
-                    'max_length' => 32,
 
-                ],
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Length(
-                        [
-                            'min' => 4,
-                            'max' => 32,
-                        ]
-                    ),
-                ],
-            ]
-        );
+        $builder->add('password', RepeatedType::class, array(
+            'type' => PasswordType::class,
+            'options' => array('attr' => array('class' => 'password-field')),
+            'required' => true,
+            'attr' => [
+                'max_length' => 32,
+
+            ],
+            'constraints' => [
+                new Assert\NotBlank(
+                    [
+                        'groups' => ['user-default'],
+                    ]
+                ),
+                new Assert\Length(
+                    [
+                        'groups' => ['user-default'],
+                        'min' => 6,
+                        'max' => 32,
+                    ]
+                ),
+            ],
+            'first_options'  => array('label' => 'label.password'),
+            'second_options' => array('label' => 'label.repeat_password'),
+        ));
 
         $builder->add(
             'name',
@@ -93,12 +109,13 @@ class UserType extends AbstractType
 
         $builder->add(
             'gender',
-            TextType::class,
+            ChoiceType::class,
             [
                 'label' => 'label.user_gender',
                 'required' => false,
-                'attr' => [
-                    'max_length' => 1,
+                'choices'  => [
+                    'label.female' => 'K',
+                    'label.male' => 'M',
                 ],
             ]
         );
@@ -124,6 +141,22 @@ class UserType extends AbstractType
                 'attr' => [
                     'max_length' => 300,
                 ],
+            ]
+        );
+    }
+
+    /**
+     * Method configureOptions.
+     *
+     * @param OptionsResolver $resolver
+     *
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'validation_groups' => 'user-default',
+                'user_repository' => null,
             ]
         );
     }

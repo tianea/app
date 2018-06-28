@@ -9,8 +9,8 @@
         {% if userId is same as(survey.user_id) or is_granted('ROLE_ADMIN') %}
             <a class="btn btn-danger btn-sm" href="{{ url('surveys_delete', {'id': survey.id}) }}"
                title="{{ 'label.surveys_delete'|trans }}">{{ 'label.surveys_delete'|trans }}</a>
+            <br><br>
         {% endif %}
-        <br><br>
         <h1>{{ survey.name }}</h1>
         <p>
             Autor: <a href="{{ url('user_account', { 'id': survey.user_id }) }}">
@@ -26,14 +26,14 @@
             <a class="btn btn-secondary" href="{{ url('surveys_edit', {'id': survey.id}) }}"
                title="{{ 'label.surveys_edit'|trans }}">{{ 'label.surveys_edit'|trans }}</a>
 
-            {% else %}
-                <a class="btn btn-success" href="{{ url('survey_start', {'id': survey.id}) }}"
-                   title="{{ 'label.survey_start'|trans }}">{{ 'label.survey_start'|trans }}</a>
+        {% else %}
+            <a class="btn btn-success" href="{{ url('survey_start', {'id': survey.id}) }}"
+               title="{{ 'label.survey_start'|trans }}">{{ 'label.survey_start'|trans }}</a>
         {% endif %}
         <br>
-        <br><br><br><br>
+        <br><br><br>
         <a class="btn btn-outline-dark" href="{{ url('surveys_index') }}"
            title="{{ 'label.back_to_list'|trans }}">{{ 'label.back_to_list'|trans }}</a>
-
-         </div>
+        <br><br>
+    </div>
 {% endblock %}

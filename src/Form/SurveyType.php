@@ -15,7 +15,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SurveyType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * BuildForm function.
+     *
+     * @param FormBuilderInterface $builder
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -54,7 +57,9 @@ class SurveyType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * GetBlockPrefix function.
+     *
+     * @return string
      */
     public function getBlockPrefix()
     {

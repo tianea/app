@@ -9,22 +9,24 @@
 namespace Controllers;
 
 use Repository\QuestionRepository;
-use Repository\SurveyRepository;
-use Repository\UserRepository;
 use Repository\AnswerRepository;
-use Form\QuestionType;
 use Form\AnswerType;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Class AnswerController
  **/
 class AnswerController implements ControllerProviderInterface
 {
+    /**
+     * Connect function.
+     *
+     * @param Application $app
+     *
+     * @return mixed
+     */
     public function connect(Application $app)
     {
         $controller = $app['controllers_factory'];
@@ -40,6 +42,8 @@ class AnswerController implements ControllerProviderInterface
     }
 
     /**
+     * Index action.
+     *
      * @param Application $app
      * @param int         $id
      *
@@ -49,7 +53,6 @@ class AnswerController implements ControllerProviderInterface
     {
         $questionRepository = new QuestionRepository($app['db']);
         $question = $questionRepository->findOneById($id);
-        $surveyId = $question['survey_id'];
         $questionId = $question['id'];
 
         $answerRepository = new AnswerRepository($app['db']);

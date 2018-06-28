@@ -11,9 +11,7 @@ namespace Controllers;
 use Repository\QuestionRepository;
 use Repository\SurveyRepository;
 use Repository\UserRepository;
-use Repository\AnswerRepository;
 use Form\QuestionType;
-use Form\AnswerType;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +24,8 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 class QuestionController implements ControllerProviderInterface
 {
     /**
+     * Connect function.
+     *
      * @param Application $app
      *
      * @return mixed
@@ -56,6 +56,8 @@ class QuestionController implements ControllerProviderInterface
     }
 
     /**
+     * Index action.
+     *
      * @param Application $app
      * @param int         $id
      *
@@ -69,7 +71,6 @@ class QuestionController implements ControllerProviderInterface
 
         $questionRepository = new QuestionRepository($app['db']);
         $questions = $questionRepository->findAllBySurveyId($id);
-        dump($questions);
 
         $surveyRepository = new SurveyRepository($app['db']);
         $survey = $surveyRepository->findOneById($id);
@@ -85,6 +86,8 @@ class QuestionController implements ControllerProviderInterface
     }
 
     /**
+     * View action.
+     *
      * @param Application $app
      * @param string      $id  Element Id
      *
@@ -110,18 +113,33 @@ class QuestionController implements ControllerProviderInterface
      *
      * @param \Silex\Application                        $app     Silex application
      * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
+     * @param int                                       $id
      *
      * @return \Symfony\Component\HttpFoundation\Response HTTP Response
      */
     public function addAction(Application $app, Request $request, $id)
     {
-        $questionRepository = new QuestionRepository($app['db']);
-
         $surveyRepository = new SurveyRepository($app['db']);
         $survey = $surveyRepository->findOneById($id);
         $surveyId = $survey['id'];
-        dump($survey);
-        dump($surveyId);
+
+        $userRepository = new UserRepository($app['db']);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
+        $userId = $userRepository->findUserIdByLogin($userLogin);
+        $authorId = $survey['user_id'];
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+
+        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
 
         $question = [];
 
@@ -158,7 +176,7 @@ class QuestionController implements ControllerProviderInterface
      * Edit action.
      *
      * @param Application $app
-     * @param Id          $id
+     * @param int         $id
      * @param Request     $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -166,10 +184,26 @@ class QuestionController implements ControllerProviderInterface
     public function editAction(Application $app, $id, Request $request)
     {
         $questionRepository = new QuestionRepository($app['db']);
-        //$question = $questionRepository->findAllBySurveyId($id);
         $question = $questionRepository->findOneById($id);
-        dump($question);
         $surveyId = $question['survey_id'];
+
+        $userRepository = new UserRepository($app['db']);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
+        $userId = $userRepository->findUserIdByLogin($userLogin);
+        $authorId = $question['user_id'];
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+
+        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
 
         if (!$question) {
             $app['session']->getFlashBag()->add(
@@ -225,7 +259,23 @@ class QuestionController implements ControllerProviderInterface
         $question = $questionRepository->findOneById($id);
         $surveyId = $question['survey_id'];
 
-        dump($question);
+        $userRepository = new UserRepository($app['db']);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
+        $userId = $userRepository->findUserIdByLogin($userLogin);
+        $authorId = $question['user_id'];
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+
+        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
 
         if (!$question) {
             $app['session']->getFlashBag()->add(

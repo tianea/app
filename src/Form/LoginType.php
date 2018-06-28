@@ -17,7 +17,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class LoginType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * BuildForm function.
+     *
+     * @param FormBuilderInterface $builder
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

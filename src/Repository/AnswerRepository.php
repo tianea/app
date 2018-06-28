@@ -32,8 +32,9 @@ class AnswerRepository
     }
 
     /**
-     * @param array $answer     Answer
+     * Save function.
      *
+     * @param array $answer     Answer
      * @param int   $questionId questionId
      *
      * @return int
@@ -59,6 +60,8 @@ class AnswerRepository
 
     /**
      * Find all answers by question id.
+     *
+     * @param int $id
      *
      * @return mixed
      */

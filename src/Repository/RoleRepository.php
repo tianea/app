@@ -9,10 +9,6 @@
 namespace Repository;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
-use Silex\Application;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Utils\Paginator;
 
 /**
  * class RoleRepository
@@ -37,26 +33,33 @@ class RoleRepository
     }
 
     /**
-     * Query all records.
+     * Finds id by role name
+     *
+     * @param string $name name
      *
      * @return \Doctrine\DBAL\Query\QueryBuilder Result
      */
     public function findIdByName($name)
     {
         $queryBuilder = $this->queryAll();
-        $queryBuilder->select('u.id')
-            ->where('u.name = :name')
+        $queryBuilder->select('r.id')
+            ->where('r.name = :name')
             ->setParameter(':name', $name, \PDO::PARAM_INT);
         $result = $queryBuilder->execute()->fetchAll();
 
         return !$result ? [] : $result;
     }
 
+    /**
+     * Query all records.
+     *
+     * @return $this
+     */
     protected function queryAll()
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('u.id', 'u.name')
-            ->from('user_role', 'u');
+        return $queryBuilder->select('r.id', 'r.name')
+            ->from('role', 'r');
     }
 }
