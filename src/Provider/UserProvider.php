@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: user
- * Date: 10.06.18
- * Time: 21:46
+ * User provider.
+ *
+ * @copyright (c) 2018 Monika Kwiecień
+ *
+ * @link http://cis.wzks.uj.edu.pl/~15_kwiecien/web/surveys/
  */
 
 namespace Provider;

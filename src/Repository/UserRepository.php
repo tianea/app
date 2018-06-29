@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: user
- * Date: 10.06.18
- * Time: 21:28
+ * User repository.
+ *
+ * @copyright (c) 2018 Monika Kwiecień
+ *
+ * @link http://cis.wzks.uj.edu.pl/~15_kwiecien/web/surveys/
  */
 
 namespace Repository;
@@ -47,6 +48,7 @@ class UserRepository
      * Loads user by login.
      *
      * @param string $login User login
+     *
      * @throws UsernameNotFoundException
      * @throws \Doctrine\DBAL\DBALException
      *
@@ -89,6 +91,7 @@ class UserRepository
      * Gets user data by login.
      *
      * @param string $login User login
+     *
      * @throws \Doctrine\DBAL\DBALException
      *
      * @return array Result
@@ -113,6 +116,7 @@ class UserRepository
      * Gets user roles by User ID.
      *
      * @param integer $userId User ID
+     *
      * @throws \Doctrine\DBAL\DBALException
      *
      * @return array Result

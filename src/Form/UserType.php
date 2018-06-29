@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: user
- * Date: 21.06.18
- * Time: 09:17
+ * User form.
+ *
+ * @copyright (c) 2018 Monika Kwiecień
+ *
+ * @link http://cis.wzks.uj.edu.pl/~15_kwiecien/web/surveys/
  */
 
 namespace Form;

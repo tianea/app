@@ -2,6 +2,9 @@
 /**
  * Auth controller.
  *
+ * @copyright (c) 2018 Monika Kwiecień
+ *
+ * @link http://cis.wzks.uj.edu.pl/~15_kwiecien/web/surveys/
  */
 namespace Controllers;
 
