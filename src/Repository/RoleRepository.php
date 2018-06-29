@@ -46,15 +46,15 @@ class RoleRepository
         $queryBuilder->select('r.id')
             ->where('r.name = :name')
             ->setParameter(':name', $name, \PDO::PARAM_INT);
-        $result = $queryBuilder->execute()->fetchAll();
+        $result = $queryBuilder->execute()->fetch();
 
-        return !$result ? [] : $result;
+        return $result['id'];
     }
 
     /**
      * Query all records.
      *
-     * @return $this
+     * @return \Doctrine\DBAL\Query\QueryBuilder Result
      */
     protected function queryAll()
     {

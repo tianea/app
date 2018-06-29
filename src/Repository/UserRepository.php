@@ -226,12 +226,13 @@ class UserRepository
 
         $this->db->beginTransaction();
 
-        //$roleRepository = new RoleRepository($this->db);
+        $roleRepository = new RoleRepository($this->db);
 
         try {
             $userRole['password'] = $app['security.encoder.bcrypt']->encodePassword($user['password'], '');
             $userRole['login'] = $user['login'];
-            //$userRole['role_id'] = $roleRepository->findIdByName('ROLE_USER');
+            $userRole['role_id'] = $roleRepository->findIdByName('ROLE_USER');
+            dump($userRole['role_id']);
 
             unset($user['password']);
 
@@ -239,7 +240,6 @@ class UserRepository
                 // update record
 
                 $userRole['user_id'] = $user['id'];
-
                 $userId = $user['id'];
 
                 unset($user['id']);
@@ -250,9 +250,14 @@ class UserRepository
                 // add new record
 
                 $this->db->insert('user', $user);
-                //$userId = $this->db->lastInsertId();
+                $userId = $this->db->lastInsertId();
+                $userRole['user_id'] = $userId;
+                $roleId = $userRole['role_id'];
+                dump($userRole);
+                dump($roleId);
+                dump($user);
 
-                $userRole['user_id'] = 2;
+                $this->db->insert('user_role', $userRole);
             }
         } catch (UsernameNotFoundException $exception) {
             throw $exception;
@@ -268,7 +273,8 @@ class UserRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('u.id', 'u.login', 'u.name', 'u.age', 'u.gender', 'u.email', 'u.description', 'ur.role_id', 'ur.user_id', 'ur.login', 'ur.password')
+        return $queryBuilder->select('u.id', 'u.login', 'u.name', 'u.age', 'u.gender', 'u.email',
+            'u.description', 'ur.role_id', 'ur.password')
             ->from('user', 'u')
             ->innerJoin('u', 'user_role', 'ur', 'u.id = ur.user_id');
     }
