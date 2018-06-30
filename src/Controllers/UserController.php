@@ -122,19 +122,19 @@ class UserController implements ControllerProviderInterface
     public function signUpAction(Application $app, Request $request)
     {
         $user = [];
+        $userRepository = new UserRepository($app['db']);
 
         $form = $app['form.factory']->createBuilder(
             UserType::class,
             $user,
-            ['user_repository' => new UserRepository($app['db']), ]
+            ['user_repository' => $userRepository]
         )->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository = new UserRepository($app['db']);
-            $buffer = $form->getData();
-
-            $userRepository->save($app, $buffer);
+            $user = $form->getData();
+            $user['password'] = $app['security.encoder.bcrypt']->encodePassword($user['password'], '');
+            $userRepository->save($user);
 
             $app['session']->getFlashBag()->add(
                 'messages',

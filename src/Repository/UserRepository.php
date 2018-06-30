@@ -11,7 +11,6 @@ namespace Repository;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
-use Silex\Application;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Utils\Paginator;
 
@@ -35,6 +34,13 @@ class UserRepository
     protected $db;
 
     /**
+     * Role repository.
+     *
+     * @var null|RoleRepository $roleRepository
+     */
+    protected $roleRepository = null;
+
+    /**
      * UserRepository constructor.
      *
      * @param \Doctrine\DBAL\Connection $db
@@ -42,6 +48,7 @@ class UserRepository
     public function __construct(Connection $db)
     {
         $this->db = $db;
+        $this->roleRepository = new RoleRepository($db);
     }
 
     /**
@@ -216,24 +223,38 @@ class UserRepository
     }
 
     /**
+     * Find for username uniqueness function.
+     *
+     * @param string $login
+     * @param null   $userId
+     *
+     * @return array
+     */
+    public function findForUsernameUniqueness($login, $userId = null)
+    {
+        $queryBuilder = $this->queryAll();
+        $queryBuilder->where('u.login = :login')
+            ->setParameter(':login', $login, \PDO::PARAM_STR);
+        if ($userId) {
+            $queryBuilder->andWhere('u.id <> :userId')
+                ->setParameter(':userId', $userId, \PDO::PARAM_INT);
+        }
+
+        return $queryBuilder->execute()->fetchAll();
+    }
+
+    /**
      * Save function.
      *
-     * @param Application $app
-     * @param array       $user
+     * @param array $user User
      */
-    public function save(Application $app, $user)
+    public function save($user)
     {
-
         $this->db->beginTransaction();
-
-        $roleRepository = new RoleRepository($this->db);
-
         try {
-            $userRole['password'] = $app['security.encoder.bcrypt']->encodePassword($user['password'], '');
             $userRole['login'] = $user['login'];
-            $userRole['role_id'] = $roleRepository->findIdByName('ROLE_USER');
-            dump($userRole['role_id']);
-
+            $userRole['role_id'] = $this->roleRepository->findIdByName('ROLE_USER');
+            $userRole['password'] = $user['password'];
             unset($user['password']);
 
             if (isset($user['id']) && ctype_digit((string) $user['id'])) {
@@ -252,13 +273,10 @@ class UserRepository
                 $this->db->insert('user', $user);
                 $userId = $this->db->lastInsertId();
                 $userRole['user_id'] = $userId;
-                $roleId = $userRole['role_id'];
-                dump($userRole);
-                dump($roleId);
-                dump($user);
 
                 $this->db->insert('user_role', $userRole);
             }
+            $this->db->commit();
         } catch (UsernameNotFoundException $exception) {
             throw $exception;
         }
@@ -273,8 +291,7 @@ class UserRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('u.id', 'u.login', 'u.name', 'u.age', 'u.gender', 'u.email',
-            'u.description', 'ur.role_id', 'ur.password')
+        return $queryBuilder->select('u.id', 'u.login', 'u.name', 'u.age', 'u.gender', 'u.email', 'u.description', 'ur.role_id', 'ur.password')
             ->from('user', 'u')
             ->innerJoin('u', 'user_role', 'ur', 'u.id = ur.user_id');
     }

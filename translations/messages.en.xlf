@@ -242,6 +242,10 @@
                 <source>label.repeat_password</source>
                 <target>Repeat password</target>
             </trans-unit>
+            <trans-unit id="message.login_not_unique">
+                <source>message.login_not_unique</source>
+                <target>This login is already taken.</target>
+            </trans-unit>
 
 
         </body>

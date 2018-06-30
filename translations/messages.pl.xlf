@@ -242,6 +242,10 @@
                 <source>label.repeat_password</source>
                 <target>Powtórz hasło</target>
             </trans-unit>
+            <trans-unit id="message.login_not_unique">
+                <source>message.login_not_unique</source>
+                <target>Ten login jest już zajęty.</target>
+            </trans-unit>
 
 
         </body>

@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Validator\Constraints as CustomAssert;
 
 /**
  * Class UserType.
@@ -53,6 +54,13 @@ class UserType extends AbstractType
                             'min' => 5,
                             'max' => 16,
                         ]
+                    ),
+                    new CustomAssert\UniqueLogin(
+                        [
+                            'groups' => ['user-default'],
+                            'userRepository' => isset($options['user_repository']) ? $options['user_repository'] : null,
+                            'userId' => isset($options['data']['id']) ? $options['data']['id'] : null, ]
+
                     ),
                 ],
             ]

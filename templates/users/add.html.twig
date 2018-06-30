@@ -17,7 +17,7 @@
         {% endif %}
 
         <div>
-            {{ form_start(form, { method: 'post', action: path('sign_up') }) }}
+            {{ form_start(form, { method: 'post', action: url('sign_up') }) }}
             {{ form_widget(form) }}
             <input type="submit" value="{{ 'action.sign_up'|trans }}" class="btn btn-success" />
             {{ form_end(form) }}
