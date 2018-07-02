@@ -1,4 +1,11 @@
 <?php
+/**
+ * Console file.
+ *
+ * @copyright (c) 2018 Monika Kwiecień
+ *
+ * @link http://cis.wzks.uj.edu.pl/~15_kwiecien/web/surveys/
+ */
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;

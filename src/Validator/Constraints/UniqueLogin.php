@@ -36,5 +36,4 @@ class UniqueLogin extends Constraint
      * @var null|\Repository\UserRepository $userRepository
      */
     public $userRepository = null;
-
 }

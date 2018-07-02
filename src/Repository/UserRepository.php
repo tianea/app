@@ -295,5 +295,4 @@ class UserRepository
             ->from('user', 'u')
             ->innerJoin('u', 'user_role', 'ur', 'u.id = ur.user_id');
     }
-
 }

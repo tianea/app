@@ -159,6 +159,4 @@ class QuestionRepository
             ->from('open_question', 'o')
             ->innerJoin('o', 'survey', 's', 'o.survey_id=s.id');
     }
-
-
 }

@@ -7,6 +7,7 @@
  * @link http://cis.wzks.uj.edu.pl/~15_kwiecien/web/surveys/
  */
 namespace Controllers;
+
 use Repository\SurveyRepository;
 use Repository\UserRepository;
 use Silex\Application;
@@ -165,7 +166,7 @@ class SurveyController implements ControllerProviderInterface
         $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
         $authorId = $survey['user_id'];
 
-        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+        if ($userId !== $authorId and $userRole[0] !== ('ROLE_ADMIN')) {
             $app['session']->getFlashBag()->add(
                 'messages',
                 [
@@ -236,7 +237,7 @@ class SurveyController implements ControllerProviderInterface
         $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
         $authorId = $survey['user_id'];
 
-        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+        if ($userId !== $authorId and $userRole[0] !== ('ROLE_ADMIN')) {
             $app['session']->getFlashBag()->add(
                 'messages',
                 [

@@ -60,7 +60,6 @@ class UserType extends AbstractType
                             'groups' => ['user-default'],
                             'userRepository' => isset($options['user_repository']) ? $options['user_repository'] : null,
                             'userId' => isset($options['data']['id']) ? $options['data']['id'] : null, ]
-
                     ),
                 ],
             ]

@@ -130,7 +130,7 @@ class QuestionController implements ControllerProviderInterface
         $authorId = $survey['user_id'];
         $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
 
-        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+        if ($userId !== $authorId and $userRole[0] !== ('ROLE_ADMIN')) {
             $app['session']->getFlashBag()->add(
                 'messages',
                 [
@@ -194,7 +194,7 @@ class QuestionController implements ControllerProviderInterface
         $authorId = $question['user_id'];
         $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
 
-        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+        if ($userId !== $authorId and $userRole[0] !== ('ROLE_ADMIN')) {
             $app['session']->getFlashBag()->add(
                 'messages',
                 [
@@ -266,7 +266,7 @@ class QuestionController implements ControllerProviderInterface
         $authorId = $question['user_id'];
         $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
 
-        if ($userId != $authorId and $userRole[0] != ('ROLE_ADMIN')) {
+        if ($userId !== $authorId and $userRole[0] !== ('ROLE_ADMIN')) {
             $app['session']->getFlashBag()->add(
                 'messages',
                 [
@@ -319,6 +319,4 @@ class QuestionController implements ControllerProviderInterface
             ]
         );
     }
-
-
 }

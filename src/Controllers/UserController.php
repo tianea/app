@@ -16,10 +16,8 @@ use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class UserController
- * @package Controllers
+ * Class UserController.
  */
-
 class UserController implements ControllerProviderInterface
 {
     /**
@@ -155,5 +153,4 @@ class UserController implements ControllerProviderInterface
             ]
         );
     }
-
 }

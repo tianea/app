@@ -1,4 +1,11 @@
 <?php
+/**
+ * App file.
+ *
+ * @copyright (c) 2018 Monika Kwiecień
+ *
+ * @link http://cis.wzks.uj.edu.pl/~15_kwiecien/web/surveys/
+ */
 
 use Silex\Application;
 use Silex\Provider\AssetServiceProvider;
@@ -37,6 +44,7 @@ $app->extend('translator', function ($translator, $app) {
     $translator->addResource('xliff', __DIR__.'/../translations/validators.en.xlf', 'en', 'validators');
     $translator->addResource('xliff', __DIR__.'/../translations/messages.pl.xlf', 'pl', 'messages');
     $translator->addResource('xliff', __DIR__.'/../translations/validators.pl.xlf', 'pl', 'validators');
+
     return $translator;
 });
 
