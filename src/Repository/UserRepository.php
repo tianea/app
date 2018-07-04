@@ -291,7 +291,7 @@ class UserRepository
     {
         $queryBuilder = $this->db->createQueryBuilder();
 
-        return $queryBuilder->select('u.id', 'u.login', 'u.name', 'u.age', 'u.gender', 'u.email', 'u.description', 'ur.role_id', 'ur.password')
+        return $queryBuilder->select('u.id', 'u.login', 'u.name', 'u.age', 'u.gender', 'u.email', 'u.description', 'ur.password')
             ->from('user', 'u')
             ->innerJoin('u', 'user_role', 'ur', 'u.id = ur.user_id');
     }

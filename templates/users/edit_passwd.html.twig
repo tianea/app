@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.user_passwd_edit'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h1>{{ 'title.user_passwd_edit'|trans }} {{ user.login }}</h1>
+        {{ form_start(form, { method: 'post', action: url('user_passwd_edit', {'id': user.id}) }) }}
+        {{ form_widget(form) }}
+        <br>
+        <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
+        {{ form_end(form) }}
+        <br><br>
+        <a class="btn btn-outline-dark" href="{{ url('surveys_index') }}"
+           title="{{ 'label.back_to_list'|trans }}">{{ 'label.back_to_list'|trans }}</a>
+    </div>
+{% endblock %}

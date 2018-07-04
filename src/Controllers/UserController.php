@@ -11,6 +11,8 @@ namespace Controllers;
 
 use Repository\UserRepository;
 use Form\UserType;
+use Form\AccountType;
+use Form\PasswdType;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,6 +39,14 @@ class UserController implements ControllerProviderInterface
         $controller->get('/index/{page}', [$this, 'indexAction'])
             ->value('page', 1)
             ->bind('user_index_paginated');
+        $controller->get('/{id}/edit', [$this, 'editAction'])
+            ->method('GET|POST')
+            ->assert('id', '[1-9]\d*')
+            ->bind('user_edit');
+        $controller->get('/{id}/edit_password', [$this, 'editPasswdAction'])
+            ->method('GET|POST')
+            ->assert('id', '[1-9]\d*')
+            ->bind('user_passwd_edit');
         $controller->get('/sign_up', [$this, 'signUpAction'])
             ->method('POST|GET')
             ->bind('sign_up');
@@ -77,10 +87,15 @@ class UserController implements ControllerProviderInterface
     {
         $userRepository = new UserRepository($app['db']);
         $user = $userRepository->findOneById($id);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
+        $userId = $userRepository->findUserIdByLogin($userLogin);
 
         return $app['twig']->render(
             'users/view.html.twig',
-            ['user' => $user]
+            [
+                'userId' => $userId,
+                'user' => $user,
+            ]
         );
     }
 
@@ -105,7 +120,152 @@ class UserController implements ControllerProviderInterface
 
         return $app['twig']->render(
             'users/view.html.twig',
-            ['user' => $user]
+            [
+                'userId' => $userId,
+                'user' => $user,
+            ]
+        );
+    }
+
+    /**
+     * Edit action.
+     *
+     * @param Application $app
+     * @param Id          $id
+     * @param Request     $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editAction(Application $app, $id, Request $request)
+    {
+        $userRepository = new UserRepository($app['db']);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
+        $userId = $userRepository->findUserIdByLogin($userLogin);
+
+        $user = $userRepository->findOneById($id);
+        $accountId = $user['id'];
+
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+
+        if ($userId !== $accountId and $userRole[0] !== ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
+        if (!$user) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.record_not_found',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
+        $form = $app['form.factory']->createBuilder(AccountType::class, $user)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->save($form->getData(), $userId);
+
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'success',
+                    'message' => 'message.account_successfully_edited',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'), 301);
+        }
+
+        return $app['twig']->render(
+            'users/edit.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Password edit action.
+     *
+     * @param Application $app
+     * @param Id          $id
+     * @param Request     $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editPasswdAction(Application $app, $id, Request $request)
+    {
+        $userRepository = new UserRepository($app['db']);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
+        $userId = $userRepository->findUserIdByLogin($userLogin);
+
+        $user = $userRepository->findOneById($id);
+        $accountId = $user['id'];
+
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+
+        if ($userId !== $accountId and $userRole[0] !== ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
+        if (!$user) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.record_not_found',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
+        $form = $app['form.factory']->createBuilder(PasswdType::class, $user)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $user['password'] = $app['security.encoder.bcrypt']->encodePassword($user['password'], '');
+            $userRepository->save($user);
+
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'success',
+                    'message' => 'message.password_successfully_edited',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'), 301);
+        }
+
+        return $app['twig']->render(
+            'users/edit_passwd.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]
         );
     }
 
