@@ -10,12 +10,16 @@
 namespace Controllers;
 
 use Repository\UserRepository;
+use Repository\RoleRepository;
 use Form\UserType;
 use Form\AccountType;
 use Form\PasswdType;
+use Form\ChangeRoleType;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Class UserController.
@@ -47,6 +51,14 @@ class UserController implements ControllerProviderInterface
             ->method('GET|POST')
             ->assert('id', '[1-9]\d*')
             ->bind('user_passwd_edit');
+        $controller->match('/{id}/delete', [$this, 'deleteAction'])
+            ->method('GET|POST')
+            ->assert('id', '[1-9]\d*')
+            ->bind('users_delete');
+        $controller->get('/{id}/change_role', [$this, 'changeRoleAction'])
+            ->method('GET|POST')
+            ->assert('id', '[1-9]\d*')
+            ->bind('user_change_role');
         $controller->get('/sign_up', [$this, 'signUpAction'])
             ->method('POST|GET')
             ->bind('sign_up');
@@ -66,6 +78,19 @@ class UserController implements ControllerProviderInterface
     {
         $userRepository = new UserRepository($app['db']);
         $users = $userRepository->findAll();
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+
+        if ($userRole[0] !== ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
 
         return $app['twig']->render(
             'users/index.html.twig',
@@ -262,6 +287,145 @@ class UserController implements ControllerProviderInterface
 
         return $app['twig']->render(
             'users/edit_passwd.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Delete action.
+     *
+     * @param \Silex\Application                        $app     Silex application
+     * @param int                                       $id      Record id
+     * @param \Symfony\Component\HttpFoundation\Request $request HTTP Request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response HTTP Response
+     */
+    public function deleteAction(Application $app, $id, Request $request)
+    {
+        $userRepository = new UserRepository($app['db']);
+        $userLogin = $app['security.token_storage']->getToken()->getUser()->getUsername();
+        $userId = $userRepository->findUserIdByLogin($userLogin);
+
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+        $user = $userRepository->findOneById($id);
+        $accountId = $user['id'];
+
+        if ($userId !== $accountId and $userRole[0] !== ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
+        if (!$user) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.record_not_found',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
+        $form = $app['form.factory']->createBuilder(FormType::class, $user)->add('id', HiddenType::class)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->delete($form->getData());
+
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'success',
+                    'message' => 'message.element_successfully_deleted',
+                ]
+            );
+
+            return $app->redirect(
+                $app['url_generator']->generate('surveys_index'),
+                301
+            );
+        }
+
+        return $app['twig']->render(
+            'users/delete.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Change role action.
+     *
+     * @param Application $app
+     * @param Id          $id
+     * @param Request     $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function changeRoleAction(Application $app, $id, Request $request)
+    {
+        $roleRepository = new RoleRepository($app['db']);
+        $userRepository = new UserRepository($app['db']);
+        $user = $userRepository->findOneById($id);
+
+        $userRole = $app['security.token_storage']->getToken()->getUser()->getRoles();
+
+        if ($userRole[0] !== ('ROLE_ADMIN')) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.access_denied',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
+        if (!$user) {
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'warning',
+                    'message' => 'message.record_not_found',
+                ]
+            );
+
+            return $app->redirect($app['url_generator']->generate('surveys_index'));
+        }
+
+        $form = $app['form.factory']->createBuilder(ChangeRoleType::class, $user)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $roleRepository->save($form->getData());
+
+            $app['session']->getFlashBag()->add(
+                'messages',
+                [
+                    'type' => 'success',
+                    'message' => 'message.role_successfully_changed',
+                ]
+            );
+
+            //return $app->redirect($app['url_generator']->generate('user_index'), 301);
+        }
+
+        return $app['twig']->render(
+            'users/change_role.html.twig',
             [
                 'user' => $user,
                 'form' => $form->createView(),

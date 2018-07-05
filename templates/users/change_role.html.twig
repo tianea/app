@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.user_change_role'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h1>{{ 'title.user_change_role'|trans }} {{ user.login }}</h1>
+        {{ form_start(form, { method: 'post', action: url('user_change_role', {'id': user.id}) }) }}
+        {{ form_widget(form) }}
+        <br>
+        <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-success" />
+        {{ form_end(form) }}
+        <br><br>
+        <a class="btn btn-outline-dark" href="{{ url('user_index') }}"
+           title="{{ 'label.back_to_users_list'|trans }}">{{ 'label.back_to_users_list'|trans }}</a>
+    </div>
+{% endblock %}

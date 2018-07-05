@@ -264,6 +264,7 @@ class UserRepository
                 $userId = $user['id'];
 
                 unset($user['id']);
+                dump($userRole);
 
                 $this->db->update('user', $user, ['id' => $userId]);
                 $this->db->update('user_role', $userRole, ['user_id' => $userId]);
@@ -280,6 +281,18 @@ class UserRepository
         } catch (UsernameNotFoundException $exception) {
             throw $exception;
         }
+    }
+
+    /**
+     * User deleting.
+     *
+     * @param array $user User
+     *
+     * @return int
+     */
+    public function delete($user)
+    {
+        return $this->db->delete('user', ['id' => $user['id']]);
     }
 
     /**

@@ -7,6 +7,11 @@
 
 {% block body %}
     <div class="content">
+        {% if userId is same as(user.id) or is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-danger btn-sm" href="{{ url('users_delete', {'id': user.id}) }}"
+               title="{{ 'title.users_delete'|trans }}">{{ 'title.users_delete'|trans }}</a>
+            <br><br>
+        {% endif %}
         <h1>{{ 'label.user_profile'|trans }} {{ user.login }}</h1>
         <p><b>{{ 'label.user_name'|trans }}:</b> {{ user.name }}</p>
         <p><b>{{ 'label.user_gender'|trans }}:</b> {{ user.gender }}</p>

@@ -246,7 +246,66 @@
                 <source>message.login_not_unique</source>
                 <target>This login is already taken.</target>
             </trans-unit>
-
+            <trans-unit id="title.users_delete">
+                <source>title.users_delete</source>
+                <target>Delete account</target>
+            </trans-unit>
+            <trans-unit id="label.user_passwd_edit">
+                <source>label.user_passwd_edit</source>
+                <target>Change password</target>
+            </trans-unit>
+            <trans-unit id="label.user_edit">
+                <source>label.user_edit</source>
+                <target>Edit data</target>
+            </trans-unit>
+            <trans-unit id="label.user_change_role">
+                <source>label.user_change_role</source>
+                <target>Change role</target>
+            </trans-unit>
+            <trans-unit id="message.role_successfully_changed">
+                <source>message.role_successfully_changed</source>
+                <target>Role successfully changed!</target>
+            </trans-unit>
+            <trans-unit id="title.users_deleting">
+                <source>title.users_deleting</source>
+                <target>Account deleting</target>
+            </trans-unit>
+            <trans-unit id="user_delete_warning">
+                <source>user_delete_warning</source>
+                <target>Do you really want to delete account</target>
+            </trans-unit>
+            <trans-unit id="label.back_to_users_list">
+                <source>label.back_to_users_list</source>
+                <target>Back to users list</target>
+            </trans-unit>
+            <trans-unit id="message.account_successfully_edited">
+                <source>message.account_successfully_edited</source>
+                <target>Data successfully edited!</target>
+            </trans-unit>
+            <trans-unit id="title.user_passwd_edit">
+                <source>title.user_passwd_edit</source>
+                <target>Change password of user</target>
+            </trans-unit>
+            <trans-unit id="message.password_successfully_edited">
+                <source>message.password_successfully_edited</source>
+                <target>Password changed successfully!</target>
+            </trans-unit>
+            <trans-unit id="title.user_change_role">
+                <source>title.user_change_role</source>
+                <target>Change role of user</target>
+            </trans-unit>
+            <trans-unit id="label.user_role">
+                <source>label.user_role</source>
+                <target>Choose role:</target>
+            </trans-unit>
+            <trans-unit id="label.admin">
+                <source>label.admin</source>
+                <target>Administrator</target>
+            </trans-unit>
+            <trans-unit id="label.user">
+                <source>label.user</source>
+                <target>User</target>
+            </trans-unit>
 
         </body>
     </file>

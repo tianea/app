@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.users_deleting'|trans({'%id%': user.id}) }} {{ user.login }}{% endblock %}
+
+{% block body %}
+    <div class="content">
+
+        <h1>{{ 'title.users_deleting'|trans({'%id%': user.id})}} {{ user.login }}</h1>
+        <p>{{ 'user_delete_warning'|trans }} {{ user.login }}?</p>
+        <br>
+        {{ form_start(form, { method: 'post', action: url('users_delete', {'id': user.id}) }) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="{{ 'action.delete'|trans }}" class="btn btn-danger" />
+        {{ form_end(form) }}
+        <br><br>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-outline-dark" href="{{ url('user_index') }}"
+               title="{{ 'label.back_to_users_list'|trans }}">{{ 'label.back_to_users_list'|trans }}</a>
+            {% else %}
+                <a class="btn btn-outline-dark" href="{{ url('surveys_index') }}"
+                   title="{{ 'label.back_to_mainpage'|trans }}">{{ 'label.back_to_mainpage'|trans }}</a>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="content">
-        <h1>{{ 'title.user_edit'|trans }}</h1>
+        <h1>{{ 'title.user_edit'|trans }}  {{ user.login }}</h1>
         {{ form_start(form, { method: 'post', action: url('user_edit', {'id': user.id}) }) }}
         {{ form_widget(form) }}
         <br>
